@@ -13,13 +13,34 @@ npm run dev
 
 ## Available Components
 
+### Form Components
 | Component | Import |
 |-----------|--------|
 | Button | `@/components/primitives/AppButton` |
 | Badge | `@/components/primitives/AppBadge` |
-| Card | `@/components/primitives/AppCard` |
 | Input | `@/components/primitives/AppInput` |
 | Label | `@/components/primitives/AppLabel` |
+| Checkbox | `@/components/primitives/AppCheckbox` |
+| Radio Group | `@/components/primitives/AppRadioGroup` |
+| Switch | `@/components/primitives/AppSwitch` |
+| Toggle | `@/components/primitives/AppToggle` |
+| Textarea | `@/components/primitives/AppTextarea` |
+| Progress | `@/components/primitives/AppProgress` |
+
+### Overlay Components
+| Component | Import |
+|-----------|--------|
+| Dialog | `@/components/primitives/AppDialog` |
+| Sheet | `@/components/primitives/AppSheet` |
+| Popover | `@/components/primitives/AppPopover` |
+| Tooltip | `@/components/primitives/AppTooltip` |
+| Hover Card | `@/components/primitives/AppHoverCard` |
+| Select | `@/components/primitives/AppSelect` |
+
+### Layout Components
+| Component | Import |
+|-----------|--------|
+| Card | `@/components/primitives/AppCard` |
 
 ## Usage
 
