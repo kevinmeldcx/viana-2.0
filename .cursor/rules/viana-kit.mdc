@@ -1,0 +1,15 @@
+---
+description: Viana Kit design system rules — applied to all files in this project
+alwaysApply: true
+---
+
+See `AGENTS.md` at the repo root for the full guide.
+
+Key rules:
+- NEVER edit `src/components/ui/` or `src/components/primitives/` — managed by Viana Kit CLI
+- Build product UI in `src/components/blocks/` using `App*` primitives
+- Import from `@/components/primitives/*` only — never from `@/components/ui/*`
+- Styling: Tailwind CSS v4 utility classes + semantic tokens only. No inline styles. No hardcoded colors.
+- Use `cn()` from `@/lib/utils` to merge class names
+
+Full instructions, component list, and templates → `AGENTS.md`

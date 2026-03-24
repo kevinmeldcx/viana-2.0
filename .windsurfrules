@@ -1,0 +1,10 @@
+See AGENTS.md at the repo root for full instructions on how to work in this codebase.
+
+Key rules:
+- NEVER edit `src/components/ui/` or `src/components/primitives/` — managed by Viana Kit CLI
+- Build product UI in `src/components/blocks/` by composing `App*` primitives
+- Import from `@/components/primitives/*` only — never from `@/components/ui/*`
+- Use Tailwind CSS v4 utility classes and semantic token classes only — no inline styles, no hardcoded colors
+- Use `cn()` from `@/lib/utils` to merge class names
+
+Read AGENTS.md for architecture details, full component list, block templates, and styling rules.
