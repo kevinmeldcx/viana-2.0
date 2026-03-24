@@ -1,0 +1,23 @@
+{
+  "version": "0.1.0",
+  "components": {
+    "AppBadge": "0.1.0",
+    "AppButton": "0.1.0",
+    "AppCard": "0.1.0",
+    "AppCheckbox": "0.1.0",
+    "AppDialog": "0.1.0",
+    "AppHoverCard": "0.1.0",
+    "AppInput": "0.1.0",
+    "AppLabel": "0.1.0",
+    "AppPopover": "0.1.0",
+    "AppProgress": "0.1.0",
+    "AppRadioGroup": "0.1.0",
+    "AppSelect": "0.1.0",
+    "AppSheet": "0.1.0",
+    "AppSwitch": "0.1.0",
+    "AppTextarea": "0.1.0",
+    "AppToggle": "0.1.0",
+    "AppTooltip": "0.1.0"
+  },
+  "source": "https://github.com/kevinmeldcx/viana-kit-core"
+}
