@@ -1,9 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// Managed by Viana Kit — do not modify this file directly.
-// Run `npx viana-kit update hover-card` to get the latest version.
-// ─────────────────────────────────────────────────────────────────────────────
-
-
 "use client"
 
 import * as React from "react"

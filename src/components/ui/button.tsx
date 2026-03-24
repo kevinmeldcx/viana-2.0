@@ -1,9 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// Managed by Viana Kit — do not modify this file directly.
-// Run `npx viana-kit update button` to get the latest version.
-// ─────────────────────────────────────────────────────────────────────────────
-
-
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { Slot } from "radix-ui"
@@ -71,3 +65,8 @@ function Button({
 }
 
 export { Button, buttonVariants }
+
+export type ButtonProps = React.ComponentProps<"button"> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean
+  }

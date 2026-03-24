@@ -1,9 +1,3 @@
-// ─────────────────────────────────────────────────────────────────────────────
-// Managed by Viana Kit — do not modify this file directly.
-// Run `npx viana-kit update switch` to get the latest version.
-// ─────────────────────────────────────────────────────────────────────────────
-
-
 import * as React from "react"
 import * as SwitchPrimitives from "@radix-ui/react-switch"
 
