@@ -1,5 +1,6 @@
 "use client"
 
+import { cn } from "@/lib/utils"
 import {
   Select,
   SelectContent,
@@ -13,8 +14,8 @@ function AppSelect(props: React.ComponentProps<typeof Select>) {
   return <Select {...props} />
 }
 
-function AppSelectTrigger(props: React.ComponentPropsWithoutRef<typeof SelectTrigger>) {
-  return <SelectTrigger {...props} />
+function AppSelectTrigger({ className, ...props }: React.ComponentPropsWithoutRef<typeof SelectTrigger>) {
+  return <SelectTrigger className={cn("shadow-none", className)} {...props} />
 }
 
 function AppSelectValue(props: React.ComponentPropsWithoutRef<typeof SelectValue>) {
