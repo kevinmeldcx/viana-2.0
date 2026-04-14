@@ -44,3 +44,5 @@ export * from "./AppToggle"
 export * from "./AppToggleGroup"
 export * from "./AppTooltip"
 export { AppToaster, toast as sonnerToast } from "./AppToaster"
+
+export * from "../blocks"
