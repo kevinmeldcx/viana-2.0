@@ -139,7 +139,7 @@ function AppSidebarProvider(props: React.ComponentProps<typeof SidebarProvider>)
 function AppSidebar({ className, ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar
-      className={cn("group-data-[side=left]:border-r-0", className)}
+      className={cn("dark group-data-[side=left]:border-r-0", className)}
       {...props}
     />
   )

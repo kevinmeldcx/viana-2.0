@@ -52,6 +52,19 @@ AppSidebarProvider
         {/* YOUR CONTENT — only modify this area */}
 ```
 
+### Light/dark mode behavior
+
+The dashboard has a deliberate split:
+
+| Area | Theme |
+|------|-------|
+| `AppSidebar` | Always dark — has its own `dark` class |
+| `AppHeader` | Always dark — has its own `dark` class |
+| `AppDashboardBackground` | Always dark — animated dot background uses dark tokens |
+| `AppDashboardMain` | Follows the page theme (light in light mode, dark in dark mode) |
+
+Do not attempt to override this. Do not add `dark` to `AppDashboardMain` or `AppDashboardContent`. Do not add background colors to `AppSidebar` or `AppHeader` — both use a transparent background so the animated dot layer shows through.
+
 ### What you CAN change
 
 - **Sidebar menu items** — add/remove/reorder `AppSidebarMenuItem` entries, change icons, labels, `isActive`
@@ -224,6 +237,8 @@ Viana Kit uses **Tailwind CSS v4** with design tokens as CSS variables.
 **Never:**
 - ❌ `font-family` — managed by the token layer
 - ❌ Raw color values: `text-blue-500`, `bg-[#fff]`, `text-[#333]` — use semantic tokens only
+- ❌ Hardcoded color values in any form: `oklch(...)`, `hsl(...)`, `#hex`, `rgb(...)` — all colors must come from CSS variables defined in `globals.css` via `var(--token-name)` or Tailwind semantic classes
+- ❌ Custom color definition files (`colors.ts`, `palette.ts`) — the single source of truth is `globals.css` CSS variables
 - ❌ Arbitrary font sizes: `text-[13px]` — use Tailwind scale: `text-sm`, `text-base`, `text-lg`
 - ❌ Inline `style={{}}` for any visual property
 - ❌ Custom CSS outside of `globals.css`
@@ -281,6 +296,8 @@ Check the rule file first to confirm the prop doesn't exist. If it doesn't, stop
 | Compose a missing prop manually | Stop and inform the user to notify the design team |
 | Use inline styles | Use Tailwind utility classes |
 | Use raw color values (`text-blue-500`, `bg-[#fff]`) | Use semantic token classes only |
+| Hardcode color values (`oklch(...)`, `hsl(...)`, `#hex`, `rgb(...)`) | Use CSS variables from `globals.css` via `var(--token)` or Tailwind classes |
+| Create custom color files (`colors.ts`, `palette.ts`) | All colors live as CSS variables in `globals.css` only |
 | Set `font-family` | The system font is managed by the token layer |
 | Set arbitrary font sizes (`text-[13px]`) | Use Tailwind type scale (`text-sm`, `text-lg`, etc.) |
 | Copy-paste shadcn code into a block | Compose the existing `App*` primitive |

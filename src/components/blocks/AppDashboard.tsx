@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils"
 /**
  * AppDashboardBackground — Animated gradient dot pattern with mouse-follow glow.
  * Renders as an absolute-positioned layer behind all dashboard content.
- * Uses the dashboard blue brand palette visible through a hexagonal dot grid.
  * A radial glow tracks the cursor with lerp-smoothed movement.
  * @note If a prop you need is missing, stop and inform the design team.
  */
@@ -29,6 +28,7 @@ function AppDashboardBackground({
   const targetRef = React.useRef({ x: 0, y: 0 })
   const glowRef = React.useRef<HTMLDivElement>(null)
   const rafRef = React.useRef<number>(0)
+  const hasEnteredRef = React.useRef(false)
 
   React.useEffect(() => {
     if (!interactive) return
@@ -38,50 +38,59 @@ function AppDashboardBackground({
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect()
-      targetRef.current = {
-        x: e.clientX - rect.left,
-        y: e.clientY - rect.top,
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      const isInside = x >= 0 && x <= rect.width && y >= 0 && y <= rect.height
+
+      if (isInside) {
+        if (!hasEnteredRef.current) {
+          hasEnteredRef.current = true
+          cursorRef.current = { x, y }
+          if (glowRef.current) glowRef.current.style.opacity = "1"
+        }
+        targetRef.current = { x, y }
+      } else if (hasEnteredRef.current) {
+        hasEnteredRef.current = false
+        if (glowRef.current) glowRef.current.style.opacity = "0"
       }
     }
 
     const animate = () => {
       const cur = cursorRef.current
       const tg = targetRef.current
-      cur.x += (tg.x - cur.x) / 20
-      cur.y += (tg.y - cur.y) / 20
-
+      cur.x += (tg.x - cur.x) / 8
+      cur.y += (tg.y - cur.y) / 8
       if (glowRef.current) {
-        glowRef.current.style.transform = `translate(${cur.x - 300}px, ${cur.y - 300}px)`
+        glowRef.current.style.transform = `translate(${cur.x}px, ${cur.y}px)`
       }
-
       rafRef.current = requestAnimationFrame(animate)
     }
 
-    container.addEventListener("mousemove", handleMouseMove)
+    document.addEventListener("mousemove", handleMouseMove)
     rafRef.current = requestAnimationFrame(animate)
 
     return () => {
-      container.removeEventListener("mousemove", handleMouseMove)
+      document.removeEventListener("mousemove", handleMouseMove)
       cancelAnimationFrame(rafRef.current)
     }
   }, [interactive])
 
   const hexSpacing = spacing * 1.732
-  const bg = "oklch(0.1697 0.0844 272.5400)"
+  const bg = "var(--card)"
 
   return (
     <motion.div
       ref={containerRef}
-      className={cn("absolute inset-0 overflow-hidden", className)}
+      className={cn("dark absolute inset-0 overflow-hidden", className)}
       style={{
         backgroundColor: bg,
         backgroundImage: `
           radial-gradient(circle at 50% 50%, transparent 1.5px, ${bg} 0 ${dotSize}px, transparent ${dotSize}px),
           radial-gradient(circle at 50% 50%, transparent 1.5px, ${bg} 0 ${dotSize}px, transparent ${dotSize}px),
-          radial-gradient(circle at 50% 50%, oklch(0.3118 0.1196 260.76), transparent 60%),
-          radial-gradient(circle at 50% 50%, oklch(0.2795 0.0910 267.94), transparent 60%),
-          radial-gradient(circle at 50% 50%, oklch(0.2077 0.0657 258.32), transparent 60%),
-          radial-gradient(ellipse at 50% 50%, oklch(0.3118 0.1196 260.76), transparent 60%)
+          radial-gradient(circle at 50% 50%, var(--muted), transparent 60%),
+          radial-gradient(circle at 50% 50%, var(--secondary), transparent 60%),
+          radial-gradient(circle at 50% 50%, var(--background), transparent 60%),
+          radial-gradient(ellipse at 50% 50%, var(--muted), transparent 60%)
         `,
         backgroundSize: `
           ${spacing}px ${hexSpacing}px,
@@ -116,12 +125,32 @@ function AppDashboardBackground({
       {interactive && (
         <div
           ref={glowRef}
-          className="pointer-events-none absolute h-[600px] w-[600px] rounded-full opacity-30 blur-[80px]"
+          className="pointer-events-none absolute left-0 top-0 -translate-x-1/2 -translate-y-1/2"
           style={{
-            background:
-              "radial-gradient(circle, oklch(0.5461 0.2152 262.88), oklch(0.3118 0.1196 260.76), transparent 70%)",
+            width: 600,
+            height: 600,
+            opacity: 0,
+            transition: "opacity 0.4s ease",
+            willChange: "transform",
           }}
-        />
+        >
+          <div
+            className="absolute inset-0 rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle at center, color-mix(in oklch, var(--primary) 50%, transparent) 0%, color-mix(in oklch, var(--muted) 10%, transparent) 30%, transparent 90%)",
+              filter: "blur(100px)",
+            }}
+          />
+          <div
+            className="absolute inset-0 rounded-full mix-blend-screen"
+            style={{
+              background:
+                "radial-gradient(circle at center, color-mix(in oklch, var(--sidebar-primary) 20%, transparent) 0%, transparent 50%)",
+              filter: "blur(100px)",
+            }}
+          />
+        </div>
       )}
     </motion.div>
   )
@@ -141,7 +170,7 @@ function AppDashboard({
   return (
     <div
       className={cn(
-        "relative flex min-h-svh w-full bg-linear-to-br from-dashboard-gradient-from via-dashboard-gradient-via to-dashboard-gradient-to",
+        "relative flex min-h-svh w-full",
         className
       )}
       {...props}

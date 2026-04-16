@@ -275,7 +275,7 @@ const navSections = [
 When embedding a sidebar inside a fixed-height container (e.g. a component preview), the sidebar uses `position: fixed` which breaks out of the parent. Add `[contain:layout]` to the wrapper to create a containing block. The sidebar has a transparent background, so the wrapper must provide a dark background:
 
 ```tsx
-<div className="relative h-96 overflow-hidden rounded-lg border bg-linear-to-br from-dashboard-gradient-from via-dashboard-gradient-via to-dashboard-gradient-to [contain:layout]">
+<div className="dark relative h-96 overflow-hidden rounded-lg border bg-linear-to-br from-background via-muted to-card [contain:layout]">
   <AppSidebarProvider className="min-h-0 h-full">
     <AppSidebar collapsible="icon">...</AppSidebar>
     <AppSidebarInset>...</AppSidebarInset>

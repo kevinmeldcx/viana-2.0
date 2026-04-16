@@ -40,7 +40,7 @@ AppHeader className="border-none"        <- always border-none inside dashboard
 - **Do** add `AppSeparator orientation="vertical" className="mx-1 h-4"` after the trigger for visual separation.
 - **Do** use `AppButtonGroup` inside `AppHeaderSearchbar` to compose input + button combinations.
 - **Do** set `--header-height` on `AppSidebarProvider` alongside `--sidebar-width`.
-- **Don't** add background colors to `AppHeader` inside the dashboard — it inherits the gradient.
+- **Don't** add background colors to `AppHeader` inside the dashboard — it uses a transparent background so the animated dot background shows through.
 - **Don't** remove the `dark` class behavior — child components depend on it for correct dark-mode rendering.
 - **Don't** use raw `<input>` or `<button>` inside the header — use `AppInput`, `AppButton`, `AppSelect`.
 

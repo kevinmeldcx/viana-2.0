@@ -10,7 +10,7 @@ function AppHeader({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
   return (
     <header
       className={cn(
-        "dark flex h-(--header-height) shrink-0 items-center gap-2 border-b border-header-border bg-header text-header-foreground transition-[width,height] ease-linear",
+        "dark flex h-(--header-height) shrink-0 items-center gap-2 border-b border-border bg-transparent text-foreground transition-[width,height] ease-linear",
         className
       )}
       {...props}
@@ -41,7 +41,7 @@ AppHeaderContent.displayName = "AppHeaderContent"
 function AppHeaderTitle({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
   return (
     <span
-      className={cn("shrink-0 text-sm font-medium text-header-foreground", className)}
+      className={cn("shrink-0 text-sm font-medium text-foreground", className)}
       {...props}
     />
   )

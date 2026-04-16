@@ -48,7 +48,7 @@ AppSidebarProvider
 ## What AI agents MUST NOT change
 
 - **The composition order** — do not rearrange, remove, or skip any of the structural components listed above.
-- **AppDashboard** — do not add background colors, remove the gradient, or modify its children structure.
+- **AppDashboard** — do not add background colors or modify its children structure. The animated background is provided by `AppDashboardBackground`.
 - **AppDashboardBackground** — do not remove or replace the animated dot background.
 - **AppDashboardContent** — do not add extra wrappers or change its flex layout.
 - **AppHeader placement** — it must be the first child of `AppDashboardContent` with `className="border-none"`.
@@ -176,9 +176,10 @@ export default function Page() {
 ## Rules
 
 - Always wrap in `AppSidebarProvider` — the sidebar system depends on its context.
-- Always pass `className="border-none"` to `AppHeader` inside the dashboard — the default bottom border is not appropriate against the gradient.
-- Do not add background colors to `AppSidebar` or `AppHeader` inside the dashboard — `AppDashboard` intentionally makes them transparent so the gradient shows through.
-- The gradient is controlled by `--dashboard-gradient-from`, `--dashboard-gradient-via`, and `--dashboard-gradient-to` CSS variables. Override them via Tailwind arbitrary properties (e.g. `[--dashboard-gradient-from:oklch(...)]`), not inline `style`.
+- Always pass `className="border-none"` to `AppHeader` inside the dashboard — the default bottom border is not appropriate against the dark background.
+- Do not add background colors to `AppSidebar` or `AppHeader` — both components apply their own `dark` class and use a transparent background so the animated dot background shows through.
+- `AppDashboardMain` follows the page theme — it is light when the app is in light mode and dark when the app is in dark mode. Only the sidebar and header are always dark.
+- The animated background uses standard dark-mode tokens (`--card`, `--muted`, `--secondary`, `--background`, `--primary`). To change the color scheme, update those tokens in your theme (e.g. via tweakcn).
 - Always pass `tooltip` to every `AppSidebarMenuButton` — required for icon-only collapsed mode.
 - Always include an icon and a `<span>` label inside each `AppSidebarMenuButton`.
 - Use `isActive` to mark the current route — never apply manual background classes.
