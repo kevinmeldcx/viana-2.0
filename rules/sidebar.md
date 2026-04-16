@@ -54,7 +54,8 @@ Place as the first child of `AppSidebarHeader`. The logo is always **horizontall
 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `logo` | `string \| ReactNode` | `<PrimaryLogo width={90} height={28} />` | Text label or logo component. Defaults to the Viana Kit primary logo centered at sidebar header size. |
+| `logo` | `string \| ReactNode` | `<WhiteLogo width={90} height={28} />` | Text label or logo component. Defaults to the white Viana Kit logo for dark backgrounds. |
+| `collapsedLogo` | `ReactNode` | `<WhiteSymbol width={24} height={24} />` | Icon shown when the sidebar is collapsed to icon mode. |
 | `dropdown` | `AppSidebarBrandDropdownItem[]` | — | When provided, wraps the brand in a dropdown trigger. Omit for a non-interactive header. |
 | `showChevron` | `boolean` | `true` | Show the caret icon. Only applies when `dropdown` is set. |
 | `className` | `string` | — | Additional classes for the brand container. |
@@ -73,9 +74,9 @@ Two shapes are accepted in the same array:
 
 ## AppSidebarMenuButton
 
-No background fill by default or on hover. The accent background is applied **only when `isActive={true}`**.
+No background fill by default or on hover. The **primary brand color** background is applied **only when `isActive={true}`** — using `bg-primary` and `text-primary-foreground`.
 
-> **Note:** Tailwind v4 compiles `data-active:` to the CSS selector `[data-active]`, which matches all buttons (the attribute is always present). `AppSidebarMenuButton` corrects this by overriding with `data-active:bg-transparent` and re-applying accent only via `data-[active=true]:bg-sidebar-accent`.
+> **Note:** Tailwind v4 compiles `data-active:` to the CSS selector `[data-active]`, which matches all buttons (the attribute is always present). `AppSidebarMenuButton` corrects this by overriding with `data-active:bg-transparent` and re-applying the primary color only via `data-[active=true]:bg-primary data-[active=true]:text-primary-foreground`.
 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
@@ -128,10 +129,10 @@ Must be called inside an `AppSidebarProvider`.
 ### Image logo
 
 ```tsx
-import { PrimaryLogo } from "@/assets/logos"
+import { WhiteLogo } from "@/assets/logos"
 
 <AppSidebarHeader>
-  <AppSidebarBrand logo={<PrimaryLogo width={90} height={28} />} />
+  <AppSidebarBrand logo={<WhiteLogo width={90} height={28} />} />
 </AppSidebarHeader>
 ```
 
@@ -205,7 +206,7 @@ const navSections = [
 ]
 
 <AppSidebarProvider>
-  <AppSidebar collapsible="offcanvas">
+  <AppSidebar collapsible="icon">
     <AppSidebarHeader>
       <AppSidebarBrand dropdown={workspaces} />
     </AppSidebarHeader>
@@ -219,7 +220,7 @@ const navSections = [
             <AppSidebarMenu>
               {section.items.map((item) => (
                 <AppSidebarMenuItem key={item.title}>
-                  <AppSidebarMenuButton isActive={item.title === "Dashboard"}>
+                  <AppSidebarMenuButton isActive={item.title === "Dashboard"} tooltip={item.title}>
                     <item.icon />
                     <span>{item.title}</span>
                   </AppSidebarMenuButton>
@@ -231,7 +232,7 @@ const navSections = [
       ))}
     </AppSidebarContent>
     <AppSidebarFooter>
-      <span className="text-xs text-muted-foreground">v1.0.0</span>
+      <span className="text-xs text-sidebar-foreground/50">v1.0.0</span>
     </AppSidebarFooter>
     <AppSidebarRail />
   </AppSidebar>
@@ -271,12 +272,12 @@ const navSections = [
 
 ### Containing sidebar inside a preview box
 
-When embedding a sidebar inside a fixed-height container (e.g. a component preview), `collapsible="offcanvas"` uses `position: fixed` which breaks out of the parent. Add `[contain:layout]` to the wrapper to create a containing block:
+When embedding a sidebar inside a fixed-height container (e.g. a component preview), the sidebar uses `position: fixed` which breaks out of the parent. Add `[contain:layout]` to the wrapper to create a containing block. The sidebar has a transparent background, so the wrapper must provide a dark background:
 
 ```tsx
-<div className="relative h-96 overflow-hidden rounded-lg border [contain:layout]">
+<div className="relative h-96 overflow-hidden rounded-lg border bg-linear-to-br from-dashboard-gradient-from via-dashboard-gradient-via to-dashboard-gradient-to [contain:layout]">
   <AppSidebarProvider className="min-h-0 h-full">
-    <AppSidebar collapsible="offcanvas">...</AppSidebar>
+    <AppSidebar collapsible="icon">...</AppSidebar>
     <AppSidebarInset>...</AppSidebarInset>
   </AppSidebarProvider>
 </div>
@@ -286,6 +287,8 @@ When embedding a sidebar inside a fixed-height container (e.g. a component previ
 
 ## Rules
 
+- **Do** always include an icon and a `<span>` label inside each `AppSidebarMenuButton` — both are required for icon-only collapsed mode.
+- **Do** place the sidebar inside a dark container (e.g. `AppDashboard` or a dark gradient wrapper) — the sidebar background is transparent by default with light text.
 - **Do** wrap the entire page layout in `AppSidebarProvider` — it manages state for all children.
 - **Do** use `AppSidebarInset` as the wrapper for your main content area.
 - **Do** add `AppSidebarRail` inside `AppSidebar` to allow drag-to-resize on desktop.

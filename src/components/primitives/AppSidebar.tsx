@@ -3,7 +3,7 @@
 import * as React from "react"
 import { ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
-import { PrimaryLogo } from "../../assets/logos"
+import { WhiteLogo, WhiteSymbol } from "../../assets/logos"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -52,31 +52,38 @@ export type AppSidebarBrandDropdownItem =
 
 export type AppSidebarBrandProps = {
   logo?: string | React.ReactNode
+  collapsedLogo?: React.ReactNode
   dropdown?: AppSidebarBrandDropdownItem[]
   showChevron?: boolean
   className?: string
 }
 
 function AppSidebarBrand({
-  logo = <PrimaryLogo width={90} height={28} />,
+  logo = <WhiteLogo width={90} height={28} />,
+  collapsedLogo = <WhiteSymbol width={24} height={24} />,
   dropdown,
   showChevron = true,
   className,
 }: AppSidebarBrandProps) {
+  const { state } = useSidebar()
+  const isCollapsed = state === "collapsed"
+
   const inner = (
     <div className="relative flex w-full items-center justify-center py-1">
-      {typeof logo === "string" ? (
+      {isCollapsed ? (
+        collapsedLogo
+      ) : typeof logo === "string" ? (
         <span className="text-sm font-semibold text-foreground">{logo}</span>
       ) : (
         logo
       )}
-      {dropdown && showChevron && (
+      {!isCollapsed && dropdown && showChevron && (
         <ChevronDown className="absolute right-0 size-4 shrink-0 text-muted-foreground" />
       )}
     </div>
   )
 
-  if (!dropdown) {
+  if (!dropdown || isCollapsed) {
     return (
       <div className={cn("flex items-center px-2", className)}>
         {inner}
@@ -129,8 +136,13 @@ function AppSidebarProvider(props: React.ComponentProps<typeof SidebarProvider>)
   return <SidebarProvider {...props} />
 }
 
-function AppSidebar(props: React.ComponentProps<typeof Sidebar>) {
-  return <Sidebar {...props} />
+function AppSidebar({ className, ...props }: React.ComponentProps<typeof Sidebar>) {
+  return (
+    <Sidebar
+      className={cn("group-data-[side=left]:border-r-0", className)}
+      {...props}
+    />
+  )
 }
 
 function AppSidebarTrigger(props: React.ComponentProps<typeof SidebarTrigger>) {
@@ -198,8 +210,8 @@ function AppSidebarMenuButton({ className, ...props }: React.ComponentProps<type
         "active:bg-transparent active:text-sidebar-foreground",
         // data-active: matches ALL buttons (attribute present even when "false") — reset to transparent
         "data-active:bg-transparent data-active:font-normal data-active:text-sidebar-foreground",
-        // Re-apply accent only when explicitly true
-        "data-[active=true]:bg-sidebar-accent data-[active=true]:font-medium data-[active=true]:text-sidebar-accent-foreground",
+        // Re-apply accent only when explicitly true — use primary color for active state
+        "data-[active=true]:bg-primary data-[active=true]:font-medium data-[active=true]:text-primary-foreground",
         className
       )}
       {...props}

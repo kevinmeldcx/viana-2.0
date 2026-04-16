@@ -9,7 +9,7 @@ function AppButtonGroup({ className, ...props }: React.HTMLAttributes<HTMLDivEle
   return (
     <div
       className={cn(
-        "flex [&>*]:rounded-none [&>*:first-child]:rounded-l-md [&>*:last-child]:rounded-r-md [&>*:not(:last-child)]:border-r-0",
+        "flex [&>*]:rounded-none [&>*:first-child]:rounded-l-md [&>*:last-child]:rounded-r-md [&>*:not(:last-child)]:border-r-0 [&>*_input]:rounded-none [&>*:first-child_input]:rounded-l-md [&>*:last-child_input]:rounded-r-md",
         className
       )}
       {...props}

@@ -26,12 +26,59 @@ src/app/          ← Pages. Import from blocks/ or primitives/ directly.
 
 ---
 
+## Dashboard scaffold — mandatory starting point
+
+The **Dashboard block** is the canonical layout for every page. When building, prototyping, or generating any new page, **always start from this skeleton**. Do not invent your own layout structure.
+
+Read `rules/dashboard.md` for the full specification and starter template.
+
+### Immutable structure
+
+```
+AppSidebarProvider
+  AppDashboard
+    AppSidebar collapsible="icon"
+      AppSidebarHeader > AppSidebarBrand
+      AppSidebarContent > AppSidebarGroup(s) > menu items
+      AppSidebarRail
+    AppDashboardContent
+      AppHeader className="border-none"
+        AppHeaderContent
+          AppSidebarTrigger
+          AppSeparator
+          AppHeaderSearchbar
+          AppHeaderActions
+      AppDashboardMain className="p-6"
+        {/* YOUR CONTENT — only modify this area */}
+```
+
+### What you CAN change
+
+- **Sidebar menu items** — add/remove/reorder `AppSidebarMenuItem` entries, change icons, labels, `isActive`
+- **Sidebar groups** — add/remove `AppSidebarGroup` sections
+- **AppDashboardMain content** — everything inside `<AppDashboardMain>` is your canvas
+- **AppHeaderActions content** — swap selects, buttons, avatar
+- **AppHeaderSearchbar content** — customize the search input group
+
+### What you MUST NOT change
+
+- The composition order of structural components
+- `AppDashboard`, `AppDashboardBackground`, `AppDashboardContent` — do not rearrange, wrap, or remove
+- `AppHeader` placement — always first child of `AppDashboardContent` with `className="border-none"`
+- `AppSidebar` props — always `collapsible="icon"`
+- `AppSidebarBrand` — use the component, do not replace with a manual logo
+- `AppSidebarRail` — do not remove
+
+---
+
 ## Component rules
 
 Before using any primitive, read its rule file. Each file has the full prop list, usage examples, and dos/don'ts.
 
 | Component | Rule file |
 |-----------|-----------|
+| Dashboard (block) | `rules/dashboard.md` |
+| Header (block) | `rules/header.md` |
 | AppAccordion | `rules/accordion.md` |
 | AppAlert | `rules/alert.md` |
 | AppAlertDialog | `rules/alert-dialog.md` |

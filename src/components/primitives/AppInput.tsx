@@ -25,7 +25,7 @@ function AppInput({ leftAdornment, rightAdornment, className, ...props }: AppInp
   }
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex w-full items-center">
       {leftAdornment && (
         <span className="pointer-events-none absolute left-2.5 flex items-center text-muted-foreground">
           {leftAdornment}
