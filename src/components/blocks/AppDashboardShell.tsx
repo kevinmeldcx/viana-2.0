@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Search } from "lucide-react"
+import { LayoutGrid, Search } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { AppDashboard, AppDashboardContent, AppDashboardMain } from "./AppDashboard"
 import { AppHeader, AppHeaderContent, AppHeaderSearchbar, AppHeaderActions } from "./AppHeader"
@@ -22,6 +22,14 @@ import { AppSeparator } from "@/components/primitives/AppSeparator"
 import { AppButtonGroup } from "@/components/primitives/AppButtonGroup"
 import { AppButton } from "@/components/primitives/AppButton"
 import { AppInput } from "@/components/primitives/AppInput"
+import {
+  AppSelect,
+  AppSelectTrigger,
+  AppSelectValue,
+  AppSelectContent,
+  AppSelectItem,
+} from "@/components/primitives/AppSelect"
+import { AppAvatar, AppAvatarFallback } from "@/components/primitives/AppAvatar"
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -69,6 +77,30 @@ function DefaultSearchbar() {
   )
 }
 
+// ─── Default header actions ───────────────────────────────────────────────────
+
+function DefaultHeaderActions() {
+  return (
+    <>
+      <AppSelect defaultValue="network-1">
+        <AppSelectTrigger className="w-40">
+          <AppSelectValue />
+        </AppSelectTrigger>
+        <AppSelectContent>
+          <AppSelectItem value="network-1">MeldCX Network</AppSelectItem>
+          <AppSelectItem value="network-2">Acme Network</AppSelectItem>
+        </AppSelectContent>
+      </AppSelect>
+      <AppButton variant="ghost" size="icon">
+        <LayoutGrid className="size-4" />
+      </AppButton>
+      <AppAvatar className="size-8">
+        <AppAvatarFallback>KA</AppAvatarFallback>
+      </AppAvatar>
+    </>
+  )
+}
+
 // ─── AppDashboardShell ────────────────────────────────────────────────────────
 
 /**
@@ -112,6 +144,7 @@ export function AppDashboardShell({
   children,
 }: AppDashboardShellProps) {
   const searchbar = headerSearchbar === undefined ? <DefaultSearchbar /> : headerSearchbar
+  const actions = headerActions === undefined ? <DefaultHeaderActions /> : headerActions
 
   return (
     <AppSidebarProvider
@@ -162,8 +195,8 @@ export function AppDashboardShell({
               {searchbar && (
                 <AppHeaderSearchbar>{searchbar}</AppHeaderSearchbar>
               )}
-              {headerActions && (
-                <AppHeaderActions>{headerActions}</AppHeaderActions>
+              {actions && (
+                <AppHeaderActions>{actions}</AppHeaderActions>
               )}
             </AppHeaderContent>
           </AppHeader>
