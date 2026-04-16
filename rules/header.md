@@ -19,7 +19,7 @@ AppHeader className="border-none"        <- always border-none inside dashboard
         AppButton variant="outline"
     AppHeaderActions                     <- right-aligned controls
       AppSelect                          <- network/workspace selector
-      AppButton variant="ghost"          <- icon buttons
+      AppButton variant="ghost" size="icon"  <- bento / icon buttons
       AppAvatar                          <- user avatar
 ```
 
@@ -47,6 +47,8 @@ AppHeader className="border-none"        <- always border-none inside dashboard
 ## Usage inside dashboard (standard)
 
 ```tsx
+import { LayoutGrid, Search } from "lucide-react"
+
 <AppHeader className="border-none">
   <AppHeaderContent>
     <AppSidebarTrigger />
@@ -68,6 +70,9 @@ AppHeader className="border-none"        <- always border-none inside dashboard
           <AppSelectItem value="network-1">MeldCX Network</AppSelectItem>
         </AppSelectContent>
       </AppSelect>
+      <AppButton variant="ghost" size="icon">
+        <LayoutGrid className="size-4" />
+      </AppButton>
       <AppAvatar className="size-8">
         <AppAvatarFallback>KA</AppAvatarFallback>
       </AppAvatar>
