@@ -28,13 +28,13 @@ src/app/          ← Pages. Import from blocks/ or primitives/ directly.
 
 ## Dashboard layout — mandatory starting point
 
-Every page uses `AppDashboardShell`. **Do not compose the dashboard scaffold manually.**
+Every page uses `AppDashboard`. **Do not compose the dashboard scaffold manually.**
 
 ```tsx
-import { AppDashboardShell } from "@/components/blocks/AppDashboardShell"
+import { AppDashboard } from "@/components/blocks/AppDashboard"
 ```
 
-Pass your nav sections and page content. The sidebar brand, animated background, header, and layout structure are handled automatically:
+Pass your nav sections and page content. The sidebar brand, animated wave background, dark header (with search, network select, bento button, and avatar by default), and layout structure are all handled automatically:
 
 ```tsx
 const nav = [
@@ -50,9 +50,9 @@ const nav = [
 
 export default function Page() {
   return (
-    <AppDashboardShell nav={nav} headerActions={<AppAvatar className="size-8"><AppAvatarFallback>U</AppAvatarFallback></AppAvatar>}>
+    <AppDashboard nav={nav}>
       {/* Your page content here */}
-    </AppDashboardShell>
+    </AppDashboard>
   )
 }
 ```
@@ -70,10 +70,10 @@ Read `rules/dashboard.md` for the full props reference and examples.
 
 Do not add `bg-*`, `dark`, or `border-*` to the shell or its surrounding elements. These are controlled internally and must not be overridden.
 
-### What you control via AppDashboardShell
+### What you control via AppDashboard
 
 - `nav` — sidebar sections, groups, items, icons, active state
-- `headerActions` — right-side controls (selects, avatar, buttons)
+- `headerActions` — right-side controls; defaults to network select + bento + avatar
 - `headerSearchbar` — searchbar slot (or `null` to hide)
 - `mainClassName` — extra classes on the content area (e.g. `"p-0"` for full-bleed)
 - `children` — your page content
@@ -86,7 +86,7 @@ Before using any primitive, read its rule file. Each file has the full prop list
 
 | Component | Rule file |
 |-----------|-----------|
-| AppDashboardShell (block) | `rules/dashboard.md` |
+| AppDashboard (block) | `rules/dashboard.md` |
 | Header (block) | `rules/header.md` |
 | AppAccordion | `rules/accordion.md` |
 | AppAlert | `rules/alert.md` |
@@ -285,7 +285,7 @@ Check the rule file first to confirm the prop doesn't exist. If it doesn't, stop
 
 | ❌ Never | ✅ Instead |
 |----------|-----------|
-| Compose the dashboard scaffold manually | Use `AppDashboardShell` from `@/components/blocks` |
+| Compose the dashboard scaffold manually | Use `AppDashboard` from `@/components/blocks/AppDashboard` |
 | Add `bg-*`/`dark`/`border-*` to sidebar or header | These are controlled internally — do not override |
 | Edit any file in `src/components/ui/` | Import from `@/components/primitives/*` |
 | Edit any file in `src/components/primitives/` | Create a wrapper in `src/components/blocks/` |

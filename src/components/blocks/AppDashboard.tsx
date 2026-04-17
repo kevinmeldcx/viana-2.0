@@ -1,8 +1,37 @@
 "use client"
 
 import * as React from "react"
+import { LayoutGrid, Search } from "lucide-react"
 import { motion } from "motion/react"
 import { cn } from "@/lib/utils"
+import { AppHeader, AppHeaderContent, AppHeaderSearchbar, AppHeaderActions } from "./AppHeader"
+import {
+  AppSidebarProvider,
+  AppSidebar,
+  AppSidebarHeader,
+  AppSidebarContent,
+  AppSidebarGroup,
+  AppSidebarGroupLabel,
+  AppSidebarGroupContent,
+  AppSidebarMenu,
+  AppSidebarMenuItem,
+  AppSidebarMenuButton,
+  AppSidebarBrand,
+  AppSidebarTrigger,
+  AppSidebarRail,
+} from "@/components/primitives/AppSidebar"
+import { AppSeparator } from "@/components/primitives/AppSeparator"
+import { AppButtonGroup } from "@/components/primitives/AppButtonGroup"
+import { AppButton } from "@/components/primitives/AppButton"
+import { AppInput } from "@/components/primitives/AppInput"
+import {
+  AppSelect,
+  AppSelectTrigger,
+  AppSelectValue,
+  AppSelectContent,
+  AppSelectItem,
+} from "@/components/primitives/AppSelect"
+import { AppAvatar, AppAvatarFallback } from "@/components/primitives/AppAvatar"
 
 // ─── Perlin Noise ─────────────────────────────────────────────────────────────
 
@@ -102,7 +131,7 @@ type AnimState = {
 /**
  * AppDashboardBackground — Canvas-driven Perlin noise wave grid with mouse-follow glow.
  * Renders as an absolute-positioned layer behind all dashboard content.
- * Background uses a bg-gradient-to-br from --card to --secondary.
+ * Background uses bg-gradient-to-br from --card to --secondary.
  * Wave lines use --accent; glow uses --primary, --muted, --sidebar-primary.
  * @note If a prop you need is missing, stop and inform the design team.
  */
@@ -222,8 +251,6 @@ function AppDashboardBackground({
       const { MOUSE_INFLUENCE_RADIUS, LINE_BASE_OPACITY, LINE_HOVER_OPACITY } = WAVE_CONFIG
 
       for (const points of lines) {
-        // Each line's opacity is driven by its horizontal distance from the mouse.
-        // Lines use their original x (before wave displacement) for a stable fade boundary.
         let opacity: number = LINE_BASE_OPACITY
         if (interactive && mouse.set) {
           const dist = Math.abs(points[0].x - mouse.sx)
@@ -312,7 +339,7 @@ function AppDashboardBackground({
   return (
     <motion.div
       ref={containerRef}
-      className={cn("dark absolute inset-0 overflow-hidden bg-card", className)}
+      className={cn("dark absolute inset-0 overflow-hidden bg-gradient-to-br from-card to-secondary", className)}
       {...props}
     >
       <canvas
@@ -354,35 +381,11 @@ function AppDashboardBackground({
 }
 AppDashboardBackground.displayName = "AppDashboardBackground"
 
-/**
- * AppDashboard — Full-page layout shell with an animated wave background.
- * Composes AppSidebarProvider > AppSidebar + AppDashboardContent > AppHeader + AppDashboardMain.
- * @note If a prop you need is missing, stop and inform the design team.
- */
-function AppDashboard({
-  className,
-  children,
-  ...props
-}: React.HTMLAttributes<HTMLDivElement>) {
-  return (
-    <div
-      className={cn(
-        "relative flex min-h-svh w-full",
-        className
-      )}
-      {...props}
-    >
-      <AppDashboardBackground />
-      {children}
-    </div>
-  )
-}
-AppDashboard.displayName = "AppDashboard"
+// ─── Internal layout primitives ───────────────────────────────────────────────
 
 /**
  * AppDashboardContent — The main column next to the sidebar.
- * Wraps the header and main content area.
- * @note If a prop you need is missing, stop and inform the design team.
+ * Internal layout primitive — used by AppDashboard, not by agents.
  */
 function AppDashboardContent({
   className,
@@ -399,8 +402,7 @@ AppDashboardContent.displayName = "AppDashboardContent"
 
 /**
  * AppDashboardMain — The primary content area with a rounded top-left corner.
- * Sits below the header inside AppDashboardContent.
- * @note If a prop you need is missing, stop and inform the design team.
+ * Internal layout primitive — used by AppDashboard, not by agents.
  */
 function AppDashboardMain({
   className,
@@ -417,6 +419,190 @@ function AppDashboardMain({
   )
 }
 AppDashboardMain.displayName = "AppDashboardMain"
+
+// ─── Nav types ────────────────────────────────────────────────────────────────
+
+export type AppDashboardNavItem = {
+  /** Label shown in the sidebar and used as the tooltip when collapsed. */
+  title: string
+  /** Lucide icon component — pass the component itself, not `<Icon />`. */
+  icon: React.ElementType
+  /** Marks this item as the active route. Set on exactly one item per page. */
+  isActive?: boolean
+}
+
+export type AppDashboardNavSection = {
+  /** Optional group heading rendered above the items. */
+  label?: string
+  items: AppDashboardNavItem[]
+}
+
+// ─── Default header internals ─────────────────────────────────────────────────
+
+function DefaultSearchbar() {
+  return (
+    <AppButtonGroup className="w-full max-w-sm">
+      <AppInput placeholder="Search..." />
+      <AppButton variant="outline">
+        <Search className="h-4 w-4" />
+      </AppButton>
+    </AppButtonGroup>
+  )
+}
+
+function DefaultHeaderActions() {
+  return (
+    <>
+      <AppSelect defaultValue="network-1">
+        <AppSelectTrigger className="w-40">
+          <AppSelectValue />
+        </AppSelectTrigger>
+        <AppSelectContent>
+          <AppSelectItem value="network-1">MeldCX Network</AppSelectItem>
+          <AppSelectItem value="network-2">Acme Network</AppSelectItem>
+        </AppSelectContent>
+      </AppSelect>
+      <AppButton variant="ghost" size="icon">
+        <LayoutGrid className="size-4" />
+      </AppButton>
+      <AppAvatar className="size-8">
+        <AppAvatarFallback>KA</AppAvatarFallback>
+      </AppAvatar>
+    </>
+  )
+}
+
+// ─── AppDashboard ─────────────────────────────────────────────────────────────
+
+export type AppDashboardProps = {
+  /** Sidebar navigation sections. */
+  nav: AppDashboardNavSection[]
+  /**
+   * Right-side header controls. Defaults to network select + bento button + avatar.
+   * Pass `null` to render nothing.
+   */
+  headerActions?: React.ReactNode
+  /**
+   * Searchbar slot. Defaults to a standard search input group.
+   * Pass `null` to suppress the searchbar entirely.
+   */
+  headerSearchbar?: React.ReactNode
+  /** Overrides the --sidebar-width CSS variable. Default: "14rem". */
+  sidebarWidth?: string
+  /** Overrides the --header-height CSS variable. Default: "3.5rem". */
+  headerHeight?: string
+  /** Extra classes on the main content area. Default padding is "p-6". */
+  mainClassName?: string
+  /** Page content rendered inside the main area. */
+  children: React.ReactNode
+}
+
+/**
+ * AppDashboard — The single entry point for every page layout.
+ *
+ * Renders the full scaffold: animated wave background, collapsible sidebar
+ * with brand, dark header (with searchbar + network select + bento + avatar
+ * by default), and a rounded main content area.
+ *
+ * @example
+ * ```tsx
+ * import { LayoutDashboard, MapPin } from "lucide-react"
+ * import { AppDashboard } from "@/components/blocks/AppDashboard"
+ *
+ * const nav = [
+ *   { items: [{ title: "Dashboard", icon: LayoutDashboard, isActive: true }] },
+ *   { label: "Manage", items: [{ title: "Sites", icon: MapPin }] },
+ * ]
+ *
+ * export default function Page() {
+ *   return (
+ *     <AppDashboard nav={nav}>
+ *       <p>Page content here.</p>
+ *     </AppDashboard>
+ *   )
+ * }
+ * ```
+ *
+ * @note If a prop you need is missing, stop and inform the design team.
+ */
+function AppDashboard({
+  nav,
+  headerActions,
+  headerSearchbar,
+  sidebarWidth = "14rem",
+  headerHeight = "3.5rem",
+  mainClassName,
+  children,
+}: AppDashboardProps) {
+  const searchbar = headerSearchbar === undefined ? <DefaultSearchbar /> : headerSearchbar
+  const actions = headerActions === undefined ? <DefaultHeaderActions /> : headerActions
+
+  return (
+    <AppSidebarProvider
+      style={
+        {
+          "--sidebar-width": sidebarWidth,
+          "--header-height": headerHeight,
+        } as React.CSSProperties
+      }
+    >
+      <div className="relative flex min-h-svh w-full">
+        <AppDashboardBackground />
+
+        <AppSidebar collapsible="icon">
+          <AppSidebarHeader>
+            <AppSidebarBrand />
+          </AppSidebarHeader>
+          <AppSidebarContent>
+            {nav.map((section, i) => (
+              <AppSidebarGroup key={i}>
+                {section.label && (
+                  <AppSidebarGroupLabel>{section.label}</AppSidebarGroupLabel>
+                )}
+                <AppSidebarGroupContent>
+                  <AppSidebarMenu>
+                    {section.items.map((item) => (
+                      <AppSidebarMenuItem key={item.title}>
+                        <AppSidebarMenuButton
+                          isActive={item.isActive}
+                          tooltip={item.title}
+                        >
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </AppSidebarMenuButton>
+                      </AppSidebarMenuItem>
+                    ))}
+                  </AppSidebarMenu>
+                </AppSidebarGroupContent>
+              </AppSidebarGroup>
+            ))}
+          </AppSidebarContent>
+          <AppSidebarRail />
+        </AppSidebar>
+
+        <AppDashboardContent>
+          <AppHeader className="border-none">
+            <AppHeaderContent>
+              <AppSidebarTrigger />
+              <AppSeparator orientation="vertical" className="mx-1 h-4" />
+              {searchbar && (
+                <AppHeaderSearchbar>{searchbar}</AppHeaderSearchbar>
+              )}
+              {actions && (
+                <AppHeaderActions>{actions}</AppHeaderActions>
+              )}
+            </AppHeaderContent>
+          </AppHeader>
+
+          <AppDashboardMain className={cn("p-6", mainClassName)}>
+            {children}
+          </AppDashboardMain>
+        </AppDashboardContent>
+      </div>
+    </AppSidebarProvider>
+  )
+}
+AppDashboard.displayName = "AppDashboard"
 
 export {
   AppDashboard,

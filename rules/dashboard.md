@@ -1,45 +1,41 @@
-# AppDashboardShell
+# AppDashboard
 
-> **Primary entry point** — Use this for every new page. Do not compose the dashboard scaffold manually.
-
-## When to use
-
-Any time you are building a new page that requires the standard application layout: animated dot background, collapsible sidebar with brand, and a top header.
+> **Single entry point** — Use this for every page. Do not compose the scaffold manually.
 
 ## Import
 
 ```tsx
-import { AppDashboardShell } from "@/components/blocks/AppDashboardShell"
+import { AppDashboard } from "@/components/blocks/AppDashboard"
 ```
 
 ## Props
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `nav` | `AppDashboardShellNavSection[]` | required | Sidebar navigation. Each section renders a group with an optional label. |
-| `headerActions` | `ReactNode` | — | Right-side header slot — `AppSelect`, `AppAvatar`, icon buttons, etc. Omit to render nothing. |
+| `nav` | `AppDashboardNavSection[]` | required | Sidebar navigation. Each section renders a group with an optional label. |
+| `headerActions` | `ReactNode` | Network select + bento + avatar | Right-side header slot. Pass `null` to render nothing. |
 | `headerSearchbar` | `ReactNode` | Standard search input | Searchbar slot. Pass `null` to suppress entirely. |
 | `sidebarWidth` | `string` | `"14rem"` | Overrides the `--sidebar-width` CSS variable. |
 | `headerHeight` | `string` | `"3.5rem"` | Overrides the `--header-height` CSS variable. |
-| `mainClassName` | `string` | `"p-6"` | Extra classes forwarded to `AppDashboardMain`. Use to override padding or add layout utilities. |
-| `children` | `ReactNode` | required | Your page content. Renders inside `AppDashboardMain`. |
+| `mainClassName` | `string` | `"p-6"` | Extra classes on the main content area. |
+| `children` | `ReactNode` | required | Your page content. |
 
-### AppDashboardShellNavSection
+### AppDashboardNavSection
 
 ```ts
-type AppDashboardShellNavSection = {
-  label?: string                      // optional group label
-  items: AppDashboardShellNavItem[]
+type AppDashboardNavSection = {
+  label?: string
+  items: AppDashboardNavItem[]
 }
 ```
 
-### AppDashboardShellNavItem
+### AppDashboardNavItem
 
 ```ts
-type AppDashboardShellNavItem = {
-  title: string                       // label and tooltip text
-  icon: React.ElementType             // lucide-react icon component
-  isActive?: boolean                  // marks the current route
+type AppDashboardNavItem = {
+  title: string          // label and tooltip text
+  icon: React.ElementType  // lucide-react icon component
+  isActive?: boolean     // marks the current route
 }
 ```
 
@@ -49,7 +45,7 @@ type AppDashboardShellNavItem = {
 
 ```tsx
 import { LayoutDashboard } from "lucide-react"
-import { AppDashboardShell } from "@/components/blocks/AppDashboardShell"
+import { AppDashboard } from "@/components/blocks/AppDashboard"
 
 const nav = [
   { items: [{ title: "Dashboard", icon: LayoutDashboard, isActive: true }] },
@@ -57,131 +53,56 @@ const nav = [
 
 export default function Page() {
   return (
-    <AppDashboardShell nav={nav}>
+    <AppDashboard nav={nav}>
       <p>Page content here.</p>
-    </AppDashboardShell>
+    </AppDashboard>
   )
 }
 ```
 
-### With header actions and sectioned nav
+### Custom header actions
 
 ```tsx
-import {
-  LayoutDashboard, MapPin, Server, Cctv,
-  LineChart, FileText, LayoutGrid,
-} from "lucide-react"
-import {
-  AppSelect, AppSelectTrigger, AppSelectValue,
-  AppSelectContent, AppSelectItem,
-  AppAvatar, AppAvatarFallback,
-} from "@/components/primitives"
-import { AppDashboardShell } from "@/components/blocks/AppDashboardShell"
-import { ManifestContent } from "@/components/blocks/ManifestContent"
-
-const nav = [
-  {
-    items: [{ title: "Dashboard", icon: LayoutDashboard }],
-  },
-  {
-    label: "Manage",
-    items: [
-      { title: "Sites",   icon: MapPin },
-      { title: "Devices", icon: Server },
-      { title: "Sensors", icon: Cctv },
-    ],
-  },
-  {
-    label: "Insights",
-    items: [
-      { title: "Analytics", icon: LineChart },
-      { title: "Manifest",  icon: FileText, isActive: true },
-      { title: "Overview",  icon: LayoutGrid },
-    ],
-  },
-]
-
-const headerActions = (
-  <>
-    <AppSelect defaultValue="network-1">
-      <AppSelectTrigger className="w-40">
-        <AppSelectValue />
-      </AppSelectTrigger>
-      <AppSelectContent>
-        <AppSelectItem value="network-1">MeldCX Network</AppSelectItem>
-      </AppSelectContent>
-    </AppSelect>
-    <AppAvatar className="size-8">
-      <AppAvatarFallback>KA</AppAvatarFallback>
-    </AppAvatar>
-  </>
-)
-
-export default function ManifestPage() {
-  return (
-    <AppDashboardShell nav={nav} headerActions={headerActions}>
-      <ManifestContent />
-    </AppDashboardShell>
-  )
-}
-```
-
-### Custom searchbar
-
-```tsx
-<AppDashboardShell
-  nav={nav}
-  headerSearchbar={
-    <AppButtonGroup className="w-full max-w-md">
-      <AppInput placeholder="Search sessions..." />
-      <AppButton variant="outline">
-        <Search className="h-4 w-4" />
-      </AppButton>
-    </AppButtonGroup>
-  }
->
+<AppDashboard nav={nav} headerActions={<AppAvatar className="size-8"><AppAvatarFallback>KA</AppAvatarFallback></AppAvatar>}>
   <PageContent />
-</AppDashboardShell>
+</AppDashboard>
 ```
 
 ### No searchbar
 
 ```tsx
-<AppDashboardShell nav={nav} headerSearchbar={null}>
+<AppDashboard nav={nav} headerSearchbar={null}>
   <PageContent />
-</AppDashboardShell>
+</AppDashboard>
 ```
 
-### Override padding
+### Full-bleed content area
 
 ```tsx
-<AppDashboardShell nav={nav} mainClassName="p-0">
+<AppDashboard nav={nav} mainClassName="p-0">
   <FullBleedContent />
-</AppDashboardShell>
+</AppDashboard>
 ```
 
 ## AppDashboardBackground color tokens
 
-`AppDashboardBackground` always renders in `.dark` mode. All colors resolve from the dark theme:
+`AppDashboardBackground` always renders in `.dark` mode. Colors resolve from the dark theme:
 
 | Role | Token | Usage |
 |------|-------|-------|
-| Background | `--card` → `--secondary` | `bg-gradient-to-br from-card to-secondary` — dark navy top-left fading to a slightly lighter, more saturated dark blue bottom-right |
+| Background | `--card` → `--secondary` | `bg-gradient-to-br from-card to-secondary` |
 | Wave lines | `--accent` | Canvas `strokeStyle`, read via `getComputedStyle` at mount |
 | Mouse glow core | `--primary` | 50% opacity, blurred 100px |
 | Mouse glow mid ring | `--muted` | 10% opacity, blurred 100px |
 | Mouse glow overlay | `--sidebar-primary` | 20% opacity, `mix-blend-mode: screen`, blurred 100px |
 
-Do not hardcode `oklch(...)`, `hsl(...)`, or `#hex` values anywhere in this component — always use `var(--token)` or a Tailwind color class.
-
 ## Rules
 
-- **Do** use `AppDashboardShell` as the default layout for every page — do not compose the scaffold manually.
-- **Do** set `isActive` on exactly one nav item per page to mark the current route.
-- **Do** pass all icons as `React.ElementType` (the component itself, not `<Icon />`).
-- **Do** use `headerActions` for right-side controls (selects, avatar, icon buttons).
-- **Don't** add background colors, `dark` class, or layout wrappers around `AppDashboardShell` — it manages its own full-page layout.
-- **Don't** try to override the sidebar brand, the `border-none` on the header, or `collapsible="icon"` on the sidebar — these are fixed by the shell.
-- **Don't** import `AppDashboard`, `AppDashboardContent`, `AppSidebarProvider`, `AppHeader`, etc. to rebuild the scaffold yourself — that is what this component replaces.
+- **Do** use `AppDashboard` as the layout for every page — do not compose the scaffold manually.
+- **Do** set `isActive` on exactly one nav item per page.
+- **Do** pass icons as `React.ElementType` (the component itself, not `<Icon />`).
+- **Don't** add `bg-*`, `dark`, or `border-*` to anything wrapping `AppDashboard`.
+- **Don't** import `AppDashboardContent`, `AppDashboardMain`, `AppSidebarProvider`, `AppHeader`, etc. to rebuild the scaffold yourself.
+- **Don't** hardcode color values — all colors come from CSS variables in `globals.css`.
 
 If a prop you need is missing, stop and inform the design team.

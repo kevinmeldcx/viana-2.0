@@ -3,6 +3,9 @@ export {
   AppDashboardBackground,
   AppDashboardContent,
   AppDashboardMain,
+  type AppDashboardProps,
+  type AppDashboardNavSection,
+  type AppDashboardNavItem,
 } from "./AppDashboard"
 
 export {
@@ -12,10 +15,3 @@ export {
   AppHeaderSearchbar,
   AppHeaderActions,
 } from "./AppHeader"
-
-export {
-  AppDashboardShell,
-  type AppDashboardShellProps,
-  type AppDashboardShellNavSection,
-  type AppDashboardShellNavItem,
-} from "./AppDashboardShell"
