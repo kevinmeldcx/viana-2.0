@@ -71,11 +71,11 @@ function AppSidebarBrand({
   const inner = (
     <div className="relative flex w-full items-center justify-center py-1">
       {isCollapsed ? (
-        collapsedLogo
+        <span className="[filter:var(--logo-filter,invert(1))]">{collapsedLogo}</span>
       ) : typeof logo === "string" ? (
         <span className="text-sm font-semibold text-foreground">{logo}</span>
       ) : (
-        logo
+        <span className="[filter:var(--logo-filter,invert(1))]">{logo}</span>
       )}
       {!isCollapsed && dropdown && showChevron && (
         <ChevronDown className="absolute right-0 size-4 shrink-0 text-muted-foreground" />
@@ -139,7 +139,7 @@ function AppSidebarProvider(props: React.ComponentProps<typeof SidebarProvider>)
 function AppSidebar({ className, ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar
-      className={cn("dark group-data-[side=left]:border-r-0 bg-sidebar/0 [&_[data-slot=sidebar-inner]]:bg-sidebar/0", className)}
+      className={cn("group-data-[side=left]:border-r-0 bg-sidebar/0 [&_[data-slot=sidebar-inner]]:bg-sidebar/0", className)}
       {...props}
     />
   )

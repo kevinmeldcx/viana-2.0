@@ -15,3 +15,9 @@ export {
   AppHeaderSearchbar,
   AppHeaderActions,
 } from "./AppHeader"
+
+export {
+  AppPageTitle,
+  type AppPageTitleProps,
+  type AppPageTitleBreadcrumb,
+} from "./AppPageTitle"

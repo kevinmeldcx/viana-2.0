@@ -1,10 +1,11 @@
 "use client"
 
 import * as React from "react"
-import { LayoutGrid, Search } from "lucide-react"
+import { LayoutGrid, Moon, Search, Sun } from "lucide-react"
 import { motion } from "motion/react"
 import { cn } from "@/lib/utils"
 import { AppHeader, AppHeaderContent, AppHeaderSearchbar, AppHeaderActions } from "./AppHeader"
+import { AppPageTitle, type AppPageTitleProps } from "./AppPageTitle"
 import {
   AppSidebarProvider,
   AppSidebar,
@@ -32,6 +33,7 @@ import {
   AppSelectItem,
 } from "@/components/primitives/AppSelect"
 import { AppAvatar, AppAvatarFallback } from "@/components/primitives/AppAvatar"
+import { useAppTheme } from "@/components/primitives/AppThemeProvider"
 
 // ─── Perlin Noise ─────────────────────────────────────────────────────────────
 
@@ -308,7 +310,7 @@ function AppDashboardBackground({
         mouse.sx = mouse.x; mouse.sy = mouse.y
         mouse.lx = mouse.x; mouse.ly = mouse.y
         mouse.set = true
-        if (glowRef.current) glowRef.current.style.opacity = "1"
+        if (glowRef.current) glowRef.current.style.opacity = "0.4"
       }
     }
 
@@ -339,7 +341,7 @@ function AppDashboardBackground({
   return (
     <motion.div
       ref={containerRef}
-      className={cn("dark absolute inset-0 overflow-hidden bg-gradient-to-br from-card to-secondary", className)}
+      className={cn("absolute inset-0 overflow-hidden bg-gradient-to-br from-card to-secondary", className)}
       {...props}
     >
       <canvas
@@ -411,7 +413,7 @@ function AppDashboardMain({
   return (
     <main
       className={cn(
-        "flex-1 rounded-tl-3xl bg-background/96 shadow-2xl",
+        "flex-1 rounded-tl-3xl bg-background/96 backdrop-blur-md",
         className
       )}
       {...props}
@@ -451,6 +453,8 @@ function DefaultSearchbar() {
 }
 
 function DefaultHeaderActions() {
+  const { theme, toggle } = useAppTheme()
+
   return (
     <>
       <AppSelect defaultValue="network-1">
@@ -465,6 +469,18 @@ function DefaultHeaderActions() {
       <AppButton variant="ghost" size="icon">
         <LayoutGrid className="size-4" />
       </AppButton>
+      <AppButton
+        variant="ghost"
+        size="icon"
+        onClick={toggle}
+        aria-label={theme === "light" ? "Switch to dark mode" : "Switch to light mode"}
+      >
+        {theme === "light" ? (
+          <Moon className="size-4" />
+        ) : (
+          <Sun className="size-4" />
+        )}
+      </AppButton>
       <AppAvatar className="size-8">
         <AppAvatarFallback>KA</AppAvatarFallback>
       </AppAvatar>
@@ -473,6 +489,12 @@ function DefaultHeaderActions() {
 }
 
 // ─── AppDashboard ─────────────────────────────────────────────────────────────
+
+export type AppDashboardBackgroundTheme =
+  /** Background (sidebar/header/background) locked to dark regardless of page theme. Default. */
+  | "dark"
+  /** Background locked to light regardless of page theme. */
+  | "light"
 
 export type AppDashboardProps = {
   /** Sidebar navigation sections. */
@@ -493,6 +515,24 @@ export type AppDashboardProps = {
   headerHeight?: string
   /** Extra classes on the main content area. Default padding is "p-6". */
   mainClassName?: string
+  /**
+   * Page title block rendered at the top of the main content area.
+   *
+   * - Omit or pass `{}` to show the block with title and breadcrumbs auto-derived from the pathname.
+   * - Pass `{ title, subtitle?, breadcrumbs?, actions? }` to customise.
+   * - Pass `false` to explicitly hide it.
+   */
+  pageTitle?: AppPageTitleProps | false
+  /**
+   * Locks the sidebar, header, and background to a fixed light/dark mode,
+   * independently of the page's theme toggle.
+   *
+   * - `"dark"` — always dark regardless of page theme (default)
+   * - `"light"` — always light regardless of page theme
+   *
+   * @default "dark"
+   */
+  backgroundTheme?: AppDashboardBackgroundTheme
   /** Page content rendered inside the main area. */
   children: React.ReactNode
 }
@@ -532,10 +572,14 @@ function AppDashboard({
   sidebarWidth = "14rem",
   headerHeight = "3.5rem",
   mainClassName,
+  backgroundTheme = "dark",
+  pageTitle,
   children,
 }: AppDashboardProps) {
   const searchbar = headerSearchbar === undefined ? <DefaultSearchbar /> : headerSearchbar
   const actions = headerActions === undefined ? <DefaultHeaderActions /> : headerActions
+
+  const backgroundClass = backgroundTheme === "dark" ? "dark" : "background-light"
 
   return (
     <AppSidebarProvider
@@ -547,9 +591,9 @@ function AppDashboard({
       }
     >
       <div className="relative flex min-h-svh w-full">
-        <AppDashboardBackground />
+        <AppDashboardBackground className={backgroundClass} />
 
-        <AppSidebar collapsible="icon">
+        <AppSidebar collapsible="icon" className={backgroundClass}>
           <AppSidebarHeader>
             <AppSidebarBrand />
           </AppSidebarHeader>
@@ -581,7 +625,7 @@ function AppDashboard({
         </AppSidebar>
 
         <AppDashboardContent>
-          <AppHeader className="border-none">
+          <AppHeader className={cn("border-none", backgroundClass)}>
             <AppHeaderContent>
               <AppSidebarTrigger />
               <AppSeparator orientation="vertical" className="mx-1 h-4" />
@@ -595,6 +639,9 @@ function AppDashboard({
           </AppHeader>
 
           <AppDashboardMain className={cn("p-6", mainClassName)}>
+            {pageTitle !== false && (
+              <AppPageTitle {...(pageTitle ?? {})} />
+            )}
             {children}
           </AppDashboardMain>
         </AppDashboardContent>

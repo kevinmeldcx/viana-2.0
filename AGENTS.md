@@ -59,16 +59,24 @@ export default function Page() {
 
 Read `rules/dashboard.md` for the full props reference and examples.
 
-### Light/dark split — do not override
+### Background theme — `backgroundTheme` prop
 
-| Area | Theme |
-|------|-------|
-| Sidebar | Always dark — transparent background, `dark` class applied internally |
-| Header | Always dark — transparent background, `dark` class applied internally |
-| Animated background | Always dark — uses dark tokens |
-| Main content area | Follows the page theme |
+The `backgroundTheme` prop locks the sidebar, header, and background to a fixed mode. The main content area still responds to the page theme toggle independently. Set it once per app.
 
-Do not add `bg-*`, `dark`, or `border-*` to the shell or its surrounding elements. These are controlled internally and must not be overridden.
+| Value | Behaviour |
+|-------|-----------|
+| `"dark"` (default) | Sidebar/header/background always dark |
+| `"light"` | Sidebar/header/background always light |
+
+```tsx
+// Dark background (default)
+<AppDashboard nav={nav} backgroundTheme="dark">
+
+// Light background
+<AppDashboard nav={nav} backgroundTheme="light">
+```
+
+Do not add `bg-*`, `dark`, `background-light`, or `border-*` to the shell or its surrounding elements. Use `backgroundTheme` instead.
 
 ### What you control via AppDashboard
 

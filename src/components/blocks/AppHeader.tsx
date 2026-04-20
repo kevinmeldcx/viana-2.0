@@ -10,7 +10,7 @@ function AppHeader({ className, ...props }: React.HTMLAttributes<HTMLElement>) {
   return (
     <header
       className={cn(
-        "dark flex h-(--header-height) shrink-0 items-center gap-2 border-b border-border bg-transparent text-foreground transition-[width,height] ease-linear",
+        "flex h-(--header-height) shrink-0 items-center gap-2 border-b border-border bg-transparent text-foreground transition-[width,height] ease-linear",
         className
       )}
       {...props}
