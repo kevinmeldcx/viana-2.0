@@ -73,27 +73,25 @@ export default function DashboardPage() {
   return (
     <AppDashboard
       nav={nav}
-      pageTitle={false}
+      pageTitle={{
+        title: "Hi Kevin! Welcome to Viana",
+        subtitle: "Stay up to date to everything in your network",
+        breadcrumbs: [{ label: "Dashboard" }],
+        titleColor: "primary",
+        icon: (
+          <img
+            src={imgPersistentIcon.src}
+            alt="Dashboard icon"
+            className="size-16"
+          />
+        ),
+      }}
     >
       <div className="flex gap-6 flex-1">
         {/* Main content */}
         <div className="flex flex-col flex-1 space-y-8">
-          {/* Page Title */}
-          <div className="flex items-center gap-4">
-            <img
-              src={imgPersistentIcon.src}
-              alt="Dashboard icon"
-              className="h-16 w-auto shrink-0"
-            />
-            <div className="flex flex-col gap-1">
-              <AppText variant="muted">Dashboard</AppText>
-              <AppText variant="h1" className="text-primary">Hi Kevin! Welcome to Viana</AppText>
-              <AppText variant="muted">Stay up to date to everything in your network</AppText>
-            </div>
-          </div>
-
           {/* Your Operations at a Glance */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between animate-fade-in-up">
             <div>
               <AppText variant="h3">Your Operations at a Glance</AppText>
               <AppText variant="muted">As of 31 May, 6:00 PM</AppText>
@@ -102,7 +100,7 @@ export default function DashboardPage() {
           </div>
 
           {/* Ask questions about your dashboard data */}
-          <div className="bg-muted border border-border rounded-2xl p-6 space-y-2">
+          <div className="bg-muted border border-border rounded-2xl p-6 space-y-2 animate-fade-in-up [animation-delay:0.1s]">
             <div className="flex items-center space-x-2">
               <div className="h-[15px] relative shrink-0 w-[16px]">
                 <Img src={imgRectangle1.src} alt="icon" name="rectangle1" className="absolute block inset-0 max-w-none size-full" />
@@ -120,10 +118,12 @@ export default function DashboardPage() {
           {/* Hero Cards */}
           <div className="flex flex-col gap-7">
             {/* Customer Flow and Space Engagement */}
-            <HeroCard property1="Variant 1" />
+            <div className="animate-fade-in-up [animation-delay:0.2s]">
+              <HeroCard property1="Variant 1" />
+            </div>
 
             {/* Drive Thru Performance */}
-            <div className="flex flex-col gap-[10px] items-start relative w-full">
+            <div className="flex flex-col gap-[10px] items-start relative w-full animate-fade-in-up [animation-delay:0.3s]">
               <div className="bg-card content-stretch flex h-[268px] items-start overflow-clip relative rounded-lg shadow-sm shrink-0 w-full">
                 <div className="content-stretch flex flex-[1_0_0] flex-col gap-6 items-start min-w-px overflow-clip p-9 relative" data-name="Dialog">
                   <div className="content-stretch flex flex-col gap-1.5 items-start justify-center not-italic relative shrink-0 text-muted-foreground w-full" data-name="Header">
@@ -173,12 +173,14 @@ export default function DashboardPage() {
             </div>
 
             {/* Network Overview */}
-            <HeroCard property1="Variant 2" />
+            <div className="animate-fade-in-up [animation-delay:0.4s]">
+              <HeroCard property1="Variant 2" />
+            </div>
           </div>
         </div>
 
         {/* Right Sidebar */}
-        <div className="w-80 p-6 space-y-8 shrink-0">
+        <div className="w-80 p-6 space-y-8 shrink-0 animate-fade-in-up [animation-delay:0.1s]">
           <div>
             <AppText variant="h4" className="text-muted-foreground">Quick Tasks</AppText>
             <div className="flex flex-col space-y-2 mt-2">

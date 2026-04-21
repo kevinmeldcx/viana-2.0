@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { AppThemeProvider } from "@/components/primitives/AppThemeProvider";
 
 export const metadata: Metadata = {
   title: "Viana Kit",
@@ -10,9 +11,9 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full" suppressHydrationWarning>
       <body className="min-h-full bg-background text-foreground antialiased">
-        {children}
+        <AppThemeProvider>{children}</AppThemeProvider>
       </body>
     </html>
   );

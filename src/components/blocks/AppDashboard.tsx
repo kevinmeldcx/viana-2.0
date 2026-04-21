@@ -432,7 +432,7 @@ export type AppDashboardNavItem = {
   icon: React.ElementType
   /** Marks this item as the active route. Set on exactly one item per page. */
   isActive?: boolean
-  /** Next.js route to navigate to when the item is clicked. */
+  /** Optional href — renders the item as a Next.js Link when provided. */
   href?: string
 }
 
@@ -610,26 +610,23 @@ function AppDashboard({
                   <AppSidebarMenu>
                     {section.items.map((item) => (
                       <AppSidebarMenuItem key={item.title}>
-                        {item.href ? (
-                          <AppSidebarMenuButton
-                            asChild
-                            isActive={item.isActive}
-                            tooltip={item.title}
-                          >
+                        <AppSidebarMenuButton
+                          isActive={item.isActive}
+                          tooltip={item.title}
+                          asChild={!!item.href}
+                        >
+                          {item.href ? (
                             <Link href={item.href}>
                               <item.icon />
                               <span>{item.title}</span>
                             </Link>
-                          </AppSidebarMenuButton>
-                        ) : (
-                          <AppSidebarMenuButton
-                            isActive={item.isActive}
-                            tooltip={item.title}
-                          >
-                            <item.icon />
-                            <span>{item.title}</span>
-                          </AppSidebarMenuButton>
-                        )}
+                          ) : (
+                            <>
+                              <item.icon />
+                              <span>{item.title}</span>
+                            </>
+                          )}
+                        </AppSidebarMenuButton>
                       </AppSidebarMenuItem>
                     ))}
                   </AppSidebarMenu>
