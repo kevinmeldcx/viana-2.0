@@ -1,0 +1,21 @@
+<svg preserveAspectRatio="none" width="100%" height="100%" overflow="visible" style="display: block;" viewBox="0 0 10.6667 13.2968" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Group 10325">
+<g id="Group 10324">
+<path id="Subtract" fill-rule="evenodd" clip-rule="evenodd" d="M3.29679 6.63013L5.33333 8.66667L7.36987 6.63013H10C10.3682 6.63013 10.6667 6.9286 10.6667 7.29679V12.6301C10.6667 12.9983 10.3682 13.2968 10 13.2968H0.666667C0.298477 13.2968 0 12.9983 0 12.6301V7.29679C0 6.9286 0.298477 6.63013 0.666667 6.63013H3.29679Z" fill="url(#paint0_linear_0_2377)" fill-opacity="0.42"/>
+<circle id="Ellipse 7661" cx="2.66667" cy="9.96346" r="1.33333" fill="var(--fill-0, white)"/>
+<rect id="Rectangle 3" x="6" y="8.63013" width="1.33333" height="2.66667" rx="0.666667" fill="var(--fill-0, white)"/>
+<rect id="Rectangle 4" x="8" y="8.63013" width="1.33333" height="2.66667" rx="0.666667" fill="var(--fill-0, white)"/>
+</g>
+<path id="Union" d="M4.33333 0C4.14924 0 4 0.149239 4 0.333334V4H2L5.33333 7.33333L8.66667 4H6.66667V0.333333C6.66667 0.149238 6.51743 0 6.33333 0H4.33333Z" fill="url(#paint1_linear_0_2377)" fill-opacity="0.5"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_2377" x1="5.33333" y1="5.96346" x2="5.33333" y2="13.2968" gradientUnits="userSpaceOnUse">
+<stop stop-color="#50A5FF" stop-opacity="0.5"/>
+<stop offset="1" stop-color="#50A5FF"/>
+</linearGradient>
+<linearGradient id="paint1_linear_0_2377" x1="5.33333" y1="0" x2="5.33333" y2="7.33333" gradientUnits="userSpaceOnUse">
+<stop stop-color="#50A5FF"/>
+<stop offset="1" stop-color="#50A5FF"/>
+</linearGradient>
+</defs>
+</svg>
