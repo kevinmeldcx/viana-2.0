@@ -12,7 +12,7 @@ import { AppDashboard } from "@/components/blocks/AppDashboard"
 
 | Prop | Type | Default | Description |
 |------|------|---------|-------------|
-| `nav` | `AppDashboardNavSection[]` | required | Sidebar navigation. Each section renders a group with an optional label. |
+| `nav` | `AppDashboardNavSection[]` | `DEFAULT_NAV` | Sidebar navigation. Each section renders a group with an optional label. Omit to use the built-in Viana Kit default nav. |
 | `headerActions` | `ReactNode` | Network select + bento + theme toggle + avatar | Right-side header slot. Pass `null` to render nothing. |
 | `headerSearchbar` | `ReactNode` | Standard search input | Searchbar slot. Pass `null` to suppress entirely. |
 | `sidebarWidth` | `string` | `"14rem"` | Overrides the `--sidebar-width` CSS variable. |
@@ -27,12 +27,12 @@ The `backgroundTheme` prop locks the sidebar, header, and background to a fixed 
 
 ```tsx
 // Dark background, light or dark content (default)
-<AppDashboard nav={nav} backgroundTheme="dark">
+<AppDashboard backgroundTheme="dark">
   <PageContent />
 </AppDashboard>
 
 // Light background, light or dark content
-<AppDashboard nav={nav} backgroundTheme="light">
+<AppDashboard backgroundTheme="light">
   <PageContent />
 </AppDashboard>
 ```
@@ -80,14 +80,31 @@ type AppDashboardNavItem = {
 
 ## Usage
 
-### Minimal
+### Minimal (uses DEFAULT_NAV automatically)
 
 ```tsx
-import { LayoutDashboard } from "lucide-react"
 import { AppDashboard } from "@/components/blocks/AppDashboard"
 
+export default function Page() {
+  return (
+    <AppDashboard>
+      <p>Page content here.</p>
+    </AppDashboard>
+  )
+}
+```
+
+### Custom nav
+
+Pass a custom `nav` prop to replace the default Viana Kit nav:
+
+```tsx
+import { AppDashboard } from "@/components/blocks/AppDashboard"
+
+function MyNavIcon() { /* ... icon with active/default swap ... */ }
+
 const nav = [
-  { items: [{ title: "Dashboard", icon: LayoutDashboard, isActive: true }] },
+  { items: [{ title: "Home", icon: MyNavIcon, isActive: true }] },
 ]
 
 export default function Page() {
@@ -102,7 +119,7 @@ export default function Page() {
 ### Custom header actions
 
 ```tsx
-<AppDashboard nav={nav} headerActions={<AppAvatar className="size-8"><AppAvatarFallback>KA</AppAvatarFallback></AppAvatar>}>
+<AppDashboard headerActions={<AppAvatar className="size-8"><AppAvatarFallback>KA</AppAvatarFallback></AppAvatar>}>
   <PageContent />
 </AppDashboard>
 ```
@@ -110,7 +127,7 @@ export default function Page() {
 ### No searchbar
 
 ```tsx
-<AppDashboard nav={nav} headerSearchbar={null}>
+<AppDashboard headerSearchbar={null}>
   <PageContent />
 </AppDashboard>
 ```
@@ -118,7 +135,7 @@ export default function Page() {
 ### Full-bleed content area
 
 ```tsx
-<AppDashboard nav={nav} mainClassName="p-0">
+<AppDashboard mainClassName="p-0">
   <FullBleedContent />
 </AppDashboard>
 ```
@@ -138,7 +155,8 @@ export default function Page() {
 ## Rules
 
 - **Do** use `AppDashboard` as the layout for every page — do not compose the scaffold manually.
-- **Do** set `isActive` on exactly one nav item per page.
+- **Do** omit the `nav` prop when the Viana Kit default nav is sufficient — `DEFAULT_NAV` is used automatically.
+- **Do** set `isActive` on exactly one nav item per page when using a custom `nav`.
 - **Do** pass icons as `React.ElementType` (the component itself, not `<Icon />`).
 - **Don't** add `bg-*`, `dark`, or `border-*` to anything wrapping `AppDashboard`. Use `backgroundTheme` to control background theming instead.
 - **Don't** import `AppDashboardContent`, `AppDashboardMain`, `AppSidebarProvider`, `AppHeader`, etc. to rebuild the scaffold yourself.

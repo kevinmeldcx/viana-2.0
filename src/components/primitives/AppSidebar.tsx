@@ -5,6 +5,22 @@ import { ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { WhiteLogo, WhiteSymbol } from "../../assets/logos"
 import {
+  DashboardIcon,
+  DashboardActiveIcon,
+  SiteIcon,
+  SiteActiveIcon,
+  DevicesIcon,
+  DevicesActiveIcon,
+  SensorIcon,
+  SensorActiveIcon,
+  XrayIcon,
+  XrayActiveIcon,
+  ManifestIcon,
+  ManifestActiveIcon,
+  InstallerIcon,
+  InstallerActiveIcon,
+} from "../../assets/icons"
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -130,6 +146,95 @@ function AppSidebarBrand({
   )
 }
 
+// ─── AppSidebarNavIcon ────────────────────────────────────────────────────────
+
+type AppSidebarNavIconProps = {
+  icon: React.ReactNode
+  activeIcon: React.ReactNode
+}
+
+function AppSidebarNavIcon({ icon, activeIcon }: AppSidebarNavIconProps) {
+  return (
+    <>
+      <span className="group-data-[active=true]/menu-button:hidden">{icon}</span>
+      <span className="hidden group-data-[active=true]/menu-button:block">{activeIcon}</span>
+    </>
+  )
+}
+
+// ─── Internal nav-icon wrappers ───────────────────────────────────────────────
+
+function DashboardNavIcon() {
+  return <AppSidebarNavIcon icon={<DashboardIcon />} activeIcon={<DashboardActiveIcon />} />
+}
+
+function SiteNavIcon() {
+  return <AppSidebarNavIcon icon={<SiteIcon />} activeIcon={<SiteActiveIcon />} />
+}
+
+function DevicesNavIcon() {
+  return <AppSidebarNavIcon icon={<DevicesIcon />} activeIcon={<DevicesActiveIcon />} />
+}
+
+function SensorNavIcon() {
+  return <AppSidebarNavIcon icon={<SensorIcon />} activeIcon={<SensorActiveIcon />} />
+}
+
+function XrayNavIcon() {
+  return <AppSidebarNavIcon icon={<XrayIcon />} activeIcon={<XrayActiveIcon />} />
+}
+
+function ManifestNavIcon() {
+  return <AppSidebarNavIcon icon={<ManifestIcon />} activeIcon={<ManifestActiveIcon />} />
+}
+
+function InstallerNavIcon() {
+  return <AppSidebarNavIcon icon={<InstallerIcon />} activeIcon={<InstallerActiveIcon />} />
+}
+
+// ─── DEFAULT_NAV ──────────────────────────────────────────────────────────────
+
+export type AppSidebarDefaultNavItem = {
+  title: string
+  icon: React.ElementType
+  isActive?: boolean
+  href?: string
+}
+
+export type AppSidebarDefaultNavSection = {
+  label?: string
+  items: AppSidebarDefaultNavItem[]
+}
+
+export const DEFAULT_NAV: AppSidebarDefaultNavSection[] = [
+  {
+    items: [
+      { title: "Dashboards", icon: DashboardNavIcon, isActive: false, href: "#" },
+    ],
+  },
+  {
+    label: "MANAGE",
+    items: [
+      { title: "Site", icon: SiteNavIcon, isActive: false, href: "#" },
+      { title: "Devices", icon: DevicesNavIcon, isActive: false, href: "#" },
+      { title: "Sensor", icon: SensorNavIcon, isActive: false, href: "#" },
+    ],
+  },
+  {
+    label: "INSIGHTS",
+    items: [
+      { title: "X-ray", icon: XrayNavIcon, isActive: false, href: "#" },
+      { title: "Manifest", icon: ManifestNavIcon, isActive: false, href: "#" },
+    ],
+  },
+  {
+    label: "DOWNLOADS",
+    items: [
+      { title: "Installers", icon: InstallerNavIcon, isActive: false, href: "#" },
+    ],
+  },
+]
+
 // ─── Passthrough wrappers ─────────────────────────────────────────────────────
 
 function AppSidebarProvider(props: React.ComponentProps<typeof SidebarProvider>) {
@@ -212,6 +317,9 @@ function AppSidebarMenuButton({ className, ...props }: React.ComponentProps<type
         "data-active:bg-transparent data-active:font-normal data-active:text-sidebar-foreground",
         // Re-apply accent only when explicitly true — use primary color for active state
         "data-[active=true]:bg-primary data-[active=true]:font-medium data-[active=true]:text-primary-foreground",
+        // Slightly larger icons and font than the shadcn default
+        "[&_svg]:size-5",
+        "text-base",
         className
       )}
       {...props}

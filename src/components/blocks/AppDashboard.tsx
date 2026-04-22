@@ -21,6 +21,7 @@ import {
   AppSidebarBrand,
   AppSidebarTrigger,
   AppSidebarRail,
+  DEFAULT_NAV,
 } from "@/components/primitives/AppSidebar"
 import { AppSeparator } from "@/components/primitives/AppSeparator"
 import { AppButtonGroup } from "@/components/primitives/AppButtonGroup"
@@ -500,8 +501,12 @@ export type AppDashboardBackgroundTheme =
   | "light"
 
 export type AppDashboardProps = {
-  /** Sidebar navigation sections. */
-  nav: AppDashboardNavSection[]
+  /**
+   * Sidebar navigation sections.
+   * Defaults to the built-in Viana nav (Dashboards, Manage, Insights, Downloads)
+   * when omitted. Pass a custom array to override entirely.
+   */
+  nav?: AppDashboardNavSection[]
   /**
    * Right-side header controls. Defaults to network select + bento button + avatar.
    * Pass `null` to render nothing.
@@ -569,7 +574,7 @@ export type AppDashboardProps = {
  * @note If a prop you need is missing, stop and inform the design team.
  */
 function AppDashboard({
-  nav,
+  nav: navProp,
   headerActions,
   headerSearchbar,
   sidebarWidth = "14rem",
@@ -579,6 +584,7 @@ function AppDashboard({
   pageTitle,
   children,
 }: AppDashboardProps) {
+  const nav: AppDashboardNavSection[] = navProp ?? (DEFAULT_NAV as AppDashboardNavSection[])
   const searchbar = headerSearchbar === undefined ? <DefaultSearchbar /> : headerSearchbar
   const actions = headerActions === undefined ? <DefaultHeaderActions /> : headerActions
 

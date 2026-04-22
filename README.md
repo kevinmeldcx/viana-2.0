@@ -37,90 +37,44 @@ src/components/
 
 ## Dashboard Scaffold — Start Here
 
-Every new page should start from the **Dashboard block** — the canonical application layout with an animated gradient background, collapsible sidebar, dark header, and rounded content area.
+Every new page starts from `AppDashboard` — the canonical layout with an animated gradient background, collapsible sidebar, dark header (search, network select, bento button, avatar), and rounded content area. The built-in Viana Kit nav (`DEFAULT_NAV`) is used automatically when no `nav` prop is passed.
 
 ```tsx
-import {
-  AppDashboard, AppDashboardContent, AppDashboardMain,
-} from "@/components/blocks/AppDashboard"
-import {
-  AppHeader, AppHeaderContent, AppHeaderSearchbar, AppHeaderActions,
-} from "@/components/blocks/AppHeader"
-import {
-  AppSidebarProvider, AppSidebar, AppSidebarHeader, AppSidebarContent,
-  AppSidebarGroup, AppSidebarGroupLabel, AppSidebarGroupContent,
-  AppSidebarMenu, AppSidebarMenuItem, AppSidebarMenuButton,
-  AppSidebarBrand, AppSidebarTrigger, AppSidebarRail, AppSeparator,
-  AppButtonGroup, AppButton, AppInput, AppAvatar, AppAvatarFallback,
-} from "@/components/primitives"
-import { Search, LayoutDashboard } from "lucide-react"
+import { AppDashboard } from "@/components/blocks/AppDashboard"
 
 export default function Page() {
   return (
-    <AppSidebarProvider
-      style={{
-        "--sidebar-width": "14rem",
-        "--header-height": "3.5rem",
-      } as React.CSSProperties}
-    >
-      <AppDashboard>
-        <AppSidebar collapsible="icon">
-          <AppSidebarHeader>
-            <AppSidebarBrand />
-          </AppSidebarHeader>
-          <AppSidebarContent>
-            <AppSidebarGroup>
-              <AppSidebarGroupLabel>Manage</AppSidebarGroupLabel>
-              <AppSidebarGroupContent>
-                <AppSidebarMenu>
-                  <AppSidebarMenuItem>
-                    <AppSidebarMenuButton isActive tooltip="Dashboards">
-                      <LayoutDashboard />
-                      <span>Dashboards</span>
-                    </AppSidebarMenuButton>
-                  </AppSidebarMenuItem>
-                </AppSidebarMenu>
-              </AppSidebarGroupContent>
-            </AppSidebarGroup>
-          </AppSidebarContent>
-          <AppSidebarRail />
-        </AppSidebar>
-
-        <AppDashboardContent>
-          <AppHeader className="border-none">
-            <AppHeaderContent>
-              <AppSidebarTrigger />
-              <AppSeparator orientation="vertical" className="mx-1 h-4" />
-              <AppHeaderSearchbar>
-                <AppButtonGroup className="w-full max-w-sm">
-                  <AppInput placeholder="Search..." />
-                  <AppButton variant="outline">
-                    <Search className="h-4 w-4" />
-                  </AppButton>
-                </AppButtonGroup>
-              </AppHeaderSearchbar>
-              <AppHeaderActions>
-                <AppAvatar className="size-8">
-                  <AppAvatarFallback>U</AppAvatarFallback>
-                </AppAvatar>
-              </AppHeaderActions>
-            </AppHeaderContent>
-          </AppHeader>
-
-          <AppDashboardMain className="p-6">
-            {/* Your page content here */}
-          </AppDashboardMain>
-        </AppDashboardContent>
-      </AppDashboard>
-    </AppSidebarProvider>
+    <AppDashboard>
+      {/* Your page content here */}
+    </AppDashboard>
   )
 }
 ```
 
-**What you can change:** sidebar menu items, `AppDashboardMain` content, header actions/search.
-**What you must not change:** the composition order, structural components, sidebar props (`collapsible="icon"`).
+To use a custom nav, pass your own sections:
 
-See `rules/dashboard.md` for the full specification.
+```tsx
+import { AppDashboard } from "@/components/blocks/AppDashboard"
+
+function MyNavIcon() {
+  // Render both default and active icon variants; CSS handles show/hide
+  // See rules/sidebar.md for the active/default icon swap pattern
+}
+
+const nav = [
+  { items: [{ title: "Home", icon: MyNavIcon, isActive: true }] },
+]
+
+export default function Page() {
+  return (
+    <AppDashboard nav={nav}>
+      {/* Your page content here */}
+    </AppDashboard>
+  )
+}
+```
+
+See `rules/dashboard.md` for the full props reference and `rules/sidebar.md` for the nav icon pattern.
 
 ---
 

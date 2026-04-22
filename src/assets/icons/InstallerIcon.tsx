@@ -1,0 +1,23 @@
+import type { SVGProps } from "react"
+
+export function InstallerIcon({ width = 24, height = 24, ...props }: SVGProps<SVGSVGElement>) {
+  return (
+    <svg width={width} height={height} viewBox="0 0 24 24" fill="none" {...props}>
+      <path d="M19 11.9453C19.5523 11.9453 20 12.393 20 12.9453V20.9453C20 21.4976 19.5523 21.9453 19 21.9453H5C4.44772 21.9453 4 21.4976 4 20.9453V12.9453C4 12.393 4.44772 11.9453 5 11.9453H8.94531L12 15L15.0547 11.9453H19Z" fill="url(#paint0_linear_8261_14824)" fillOpacity="0.42"/>
+      <circle cx="8" cy="16.9453" r="2" fill="white"/>
+      <rect x="13" y="14.9453" width="2" height="4" rx="1" fill="white"/>
+      <rect x="16" y="14.9453" width="2" height="4" rx="1" fill="white"/>
+      <path d="M10.5 2C10.2239 2 10 2.22386 10 2.5V8H7L12 13L17 8H14V2.5C14 2.22386 13.7761 2 13.5 2H10.5Z" fill="url(#paint1_linear_8261_14824)" fillOpacity="0.5"/>
+      <defs>
+        <linearGradient id="paint0_linear_8261_14824" x1="12" y1="10.9453" x2="12" y2="21.9453" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#50A5FF" stopOpacity="0.5"/>
+          <stop offset="1" stopColor="#50A5FF"/>
+        </linearGradient>
+        <linearGradient id="paint1_linear_8261_14824" x1="12" y1="2" x2="12" y2="13" gradientUnits="userSpaceOnUse">
+          <stop stopColor="#50A5FF"/>
+          <stop offset="1" stopColor="#50A5FF"/>
+        </linearGradient>
+      </defs>
+    </svg>
+  )
+}

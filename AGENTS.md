@@ -34,18 +34,26 @@ Every page uses `AppDashboard`. **Do not compose the dashboard scaffold manually
 import { AppDashboard } from "@/components/blocks/AppDashboard"
 ```
 
-Pass your nav sections and page content. The sidebar brand, animated wave background, dark header (with search, network select, bento button, and avatar by default), and layout structure are all handled automatically:
+The sidebar brand, animated wave background, dark header (with search, network select, bento button, and avatar by default), and layout structure are all handled automatically. A built-in default nav (`DEFAULT_NAV`) is used when no `nav` prop is passed:
 
 ```tsx
+// Minimal — uses the built-in Viana Kit nav (Dashboards, Manage, Insights, Downloads)
+export default function Page() {
+  return (
+    <AppDashboard>
+      {/* Your page content here */}
+    </AppDashboard>
+  )
+}
+```
+
+To override the nav with your own sections:
+
+```tsx
+function MyNavIcon() { /* render default + active icon pair */ }
+
 const nav = [
-  { items: [{ title: "Dashboard", icon: LayoutDashboard, isActive: true }] },
-  {
-    label: "Manage",
-    items: [
-      { title: "Sites",   icon: MapPin },
-      { title: "Devices", icon: Server },
-    ],
-  },
+  { items: [{ title: "Home", icon: MyNavIcon, isActive: true }] },
 ]
 
 export default function Page() {
@@ -70,17 +78,17 @@ The `backgroundTheme` prop locks the sidebar, header, and background to a fixed 
 
 ```tsx
 // Dark background (default)
-<AppDashboard nav={nav} backgroundTheme="dark">
+<AppDashboard backgroundTheme="dark">
 
 // Light background
-<AppDashboard nav={nav} backgroundTheme="light">
+<AppDashboard backgroundTheme="light">
 ```
 
 Do not add `bg-*`, `dark`, `background-light`, or `border-*` to the shell or its surrounding elements. Use `backgroundTheme` instead.
 
 ### What you control via AppDashboard
 
-- `nav` — sidebar sections, groups, items, icons, active state
+- `nav` — sidebar sections, groups, items, icons, active state. Omit to use `DEFAULT_NAV` (built-in Viana Kit nav). See `rules/sidebar.md` for the active/default icon swap pattern.
 - `headerActions` — right-side controls; defaults to network select + bento + avatar
 - `headerSearchbar` — searchbar slot (or `null` to hide)
 - `mainClassName` — extra classes on the content area (e.g. `"p-0"` for full-bleed)
@@ -95,6 +103,7 @@ Before using any primitive, read its rule file. Each file has the full prop list
 | Component | Rule file |
 |-----------|-----------|
 | AppDashboard (block) | `rules/dashboard.md` |
+| AppSidebar + DEFAULT_NAV | `rules/sidebar.md` |
 | Header (block) | `rules/header.md` |
 | AppLocationTreeFilter (block) | `rules/location-tree-filter.md` |
 | AppAccordion | `rules/accordion.md` |
