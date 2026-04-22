@@ -15,7 +15,7 @@ import {
 } from "lucide-react"
 import { AppDashboard } from "@/components/blocks/AppDashboard"
 import { AppButton } from "@/components/primitives/AppButton"
-import { DevicesLocationTree } from "@/components/blocks/DevicesLocationTree"
+import { AppLocationTreeFilter, type TreeNode } from "@/components/blocks/AppLocationTreeFilter"
 import { DevicesTable } from "@/components/blocks/DevicesTable"
 
 const nav = [
@@ -45,6 +45,31 @@ const nav = [
   },
 ]
 
+const DEVICES_LOCATION_TREE: TreeNode[] = [
+  {
+    label: "All",
+    count: 65,
+    children: [
+      {
+        label: "Philippines",
+        count: 65,
+        children: [
+          {
+            label: "Davao City Davao",
+            count: 1,
+            children: [{ label: "Davao City", count: 1 }],
+          },
+          {
+            label: "Misamis Oriental",
+            count: 64,
+            children: [{ label: "Cagayan de Oro", count: 64 }],
+          },
+        ],
+      },
+    ],
+  },
+]
+
 export default function DevicesPage() {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null)
 
@@ -64,7 +89,11 @@ export default function DevicesPage() {
       }}
     >
       <div className="flex gap-6 flex-1 min-w-0">
-        <DevicesLocationTree
+        <AppLocationTreeFilter
+          data={DEVICES_LOCATION_TREE}
+          showHelp
+          searchPlaceholder="Search for a country, state, or..."
+          unallocated={{ label: "Unallocated Devices", count: 135 }}
           selected={selectedLocation}
           onSelect={setSelectedLocation}
         />

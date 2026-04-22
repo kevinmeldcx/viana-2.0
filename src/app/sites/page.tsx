@@ -15,7 +15,7 @@ import {
 } from "lucide-react"
 import { AppDashboard } from "@/components/blocks/AppDashboard"
 import { AppButton } from "@/components/primitives/AppButton"
-import { SitesLocationTree } from "@/components/blocks/SitesLocationTree"
+import { AppLocationTreeFilter, type TreeNode } from "@/components/blocks/AppLocationTreeFilter"
 import { SitesTable } from "@/components/blocks/SitesTable"
 
 const nav = [
@@ -45,6 +45,23 @@ const nav = [
   },
 ]
 
+const SITES_LOCATION_TREE: TreeNode[] = [
+  {
+    label: "All",
+    count: 73,
+    children: [
+      { label: "Australia", count: 6 },
+      { label: "China", count: 1 },
+      { label: "Germany", count: 1 },
+      { label: "Kiribati", count: 1 },
+      { label: "Philippines", count: 58 },
+      { label: "South Africa", count: 1 },
+      { label: "United States", count: 1 },
+      { label: "United States of America", count: 4 },
+    ],
+  },
+]
+
 export default function SitesPage() {
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null)
 
@@ -64,7 +81,10 @@ export default function SitesPage() {
       }}
     >
       <div className="flex gap-6 flex-1 min-w-0">
-        <SitesLocationTree
+        <AppLocationTreeFilter
+          data={SITES_LOCATION_TREE}
+          showHelp
+          searchPlaceholder="Search for a country, state, or..."
           selected={selectedLocation}
           onSelect={setSelectedLocation}
         />
