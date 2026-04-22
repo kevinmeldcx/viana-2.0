@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from "../ui/table"
 
 /**
@@ -7,71 +8,90 @@ import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, Tabl
  * @note Never use the raw HTML equivalent. Use AppTable.
  * @note If a prop you need is missing, stop and inform the design team.
  */
-function AppTable(props: React.ComponentProps<typeof Table>) {
+type AppTableProps = React.ComponentProps<typeof Table>
+
+function AppTable(props: AppTableProps) {
   return <Table {...props} />
 }
 
 /**
  * AppTableHeader — The header section of an AppTable.
  * @note Never use the raw HTML equivalent. Use AppTableHeader.
- * @note If a prop you need is missing, stop and inform the design team.
  */
-function AppTableHeader(props: React.ComponentProps<typeof TableHeader>) {
+type AppTableHeaderProps = React.ComponentProps<typeof TableHeader>
+
+function AppTableHeader(props: AppTableHeaderProps) {
   return <TableHeader {...props} />
 }
 
 /**
  * AppTableBody — The body section of an AppTable.
  * @note Never use the raw HTML equivalent. Use AppTableBody.
- * @note If a prop you need is missing, stop and inform the design team.
  */
-function AppTableBody(props: React.ComponentProps<typeof TableBody>) {
+type AppTableBodyProps = React.ComponentProps<typeof TableBody>
+
+function AppTableBody(props: AppTableBodyProps) {
   return <TableBody {...props} />
 }
 
 /**
  * AppTableFooter — The footer section of an AppTable.
  * @note Never use the raw HTML equivalent. Use AppTableFooter.
- * @note If a prop you need is missing, stop and inform the design team.
  */
-function AppTableFooter(props: React.ComponentProps<typeof TableFooter>) {
+type AppTableFooterProps = React.ComponentProps<typeof TableFooter>
+
+function AppTableFooter(props: AppTableFooterProps) {
   return <TableFooter {...props} />
 }
 
 /**
  * AppTableHead — A header cell within an AppTable.
  * @note Never use the raw HTML equivalent. Use AppTableHead.
- * @note If a prop you need is missing, stop and inform the design team.
  */
-function AppTableHead(props: React.ComponentProps<typeof TableHead>) {
+type AppTableHeadProps = React.ComponentProps<typeof TableHead>
+
+function AppTableHead(props: AppTableHeadProps) {
   return <TableHead {...props} />
 }
 
 /**
  * AppTableRow — A row within an AppTable.
  * @note Never use the raw HTML equivalent. Use AppTableRow.
- * @note If a prop you need is missing, stop and inform the design team.
+ * @note Set data-state="selected" to apply the selection highlight.
  */
-function AppTableRow(props: React.ComponentProps<typeof TableRow>) {
+type AppTableRowProps = React.ComponentProps<typeof TableRow>
+
+function AppTableRow(props: AppTableRowProps) {
   return <TableRow {...props} />
 }
 
 /**
  * AppTableCell — A cell within an AppTable.
  * @note Never use the raw HTML equivalent. Use AppTableCell.
- * @note If a prop you need is missing, stop and inform the design team.
  */
-function AppTableCell(props: React.ComponentProps<typeof TableCell>) {
+type AppTableCellProps = React.ComponentProps<typeof TableCell>
+
+function AppTableCell(props: AppTableCellProps) {
   return <TableCell {...props} />
 }
 
 /**
- * AppTableCaption — A caption component for AppTable.
+ * AppTableCaption — A caption for an AppTable. Place as the first child of AppTable.
  * @note Never use the raw HTML equivalent. Use AppTableCaption.
- * @note If a prop you need is missing, stop and inform the design team.
  */
-function AppTableCaption(props: React.ComponentProps<typeof TableCaption>) {
+type AppTableCaptionProps = React.ComponentProps<typeof TableCaption>
+
+function AppTableCaption(props: AppTableCaptionProps) {
   return <TableCaption {...props} />
 }
 
-export { AppTable, AppTableHeader, AppTableBody, AppTableFooter, AppTableHead, AppTableRow, AppTableCell, AppTableCaption }
+export {
+  AppTable, type AppTableProps,
+  AppTableHeader, type AppTableHeaderProps,
+  AppTableBody, type AppTableBodyProps,
+  AppTableFooter, type AppTableFooterProps,
+  AppTableHead, type AppTableHeadProps,
+  AppTableRow, type AppTableRowProps,
+  AppTableCell, type AppTableCellProps,
+  AppTableCaption, type AppTableCaptionProps,
+}
