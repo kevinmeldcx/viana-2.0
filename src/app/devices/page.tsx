@@ -1,18 +1,16 @@
 "use client"
 
 import { useState } from "react"
+import { Plus } from "lucide-react"
 import {
-  LayoutDashboard,
-  MapPin,
-  Server,
-  Cpu,
-  Bell,
-  Scan,
-  MessageSquare,
-  FileText,
-  Download,
-  Plus,
-} from "lucide-react"
+  DashboardNavIcon,
+  SiteNavIcon,
+  DevicesNavIcon,
+  SensorNavIcon,
+  XrayNavIcon,
+  ManifestNavIcon,
+  InstallerNavIcon,
+} from "@/components/blocks/NavIcons"
 import { AppDashboard } from "@/components/blocks/AppDashboard"
 import { AppButton } from "@/components/primitives/AppButton"
 import { AppLocationTreeFilter, type TreeNode } from "@/components/blocks/AppLocationTreeFilter"
@@ -20,28 +18,26 @@ import { DevicesTable } from "@/components/blocks/DevicesTable"
 
 const nav = [
   {
-    items: [{ title: "Dashboard", icon: LayoutDashboard, href: "/dashboard" }],
+    items: [{ title: "Dashboard", icon: DashboardNavIcon, href: "/dashboard" }],
   },
   {
     label: "Manage",
     items: [
-      { title: "Sites", icon: MapPin, href: "/sites" },
-      { title: "Devices", icon: Server, href: "/devices", isActive: true },
-      { title: "Sensors", icon: Cpu, href: "/sensors" },
-      { title: "Alerts", icon: Bell, href: "/alerts" },
+      { title: "Sites", icon: SiteNavIcon, href: "/sites" },
+      { title: "Devices", icon: DevicesNavIcon, href: "/devices", isActive: true },
+      { title: "Sensors", icon: SensorNavIcon, href: "/sensors" },
     ],
   },
   {
     label: "Insights",
     items: [
-      { title: "X-ray", icon: Scan, href: "/xray" },
-      { title: "Ask Vi", icon: MessageSquare, href: "/ask-vi" },
-      { title: "Manifest", icon: FileText, href: "/manifest" },
+      { title: "X-ray", icon: XrayNavIcon, href: "/xray" },
+      { title: "Manifest", icon: ManifestNavIcon, href: "/manifest" },
     ],
   },
   {
     label: "Downloads",
-    items: [{ title: "Installers", icon: Download, href: "/installers" }],
+    items: [{ title: "Installers", icon: InstallerNavIcon, href: "/installers" }],
   },
 ]
 
