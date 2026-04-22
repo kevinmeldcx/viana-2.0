@@ -21,3 +21,10 @@ export {
   type AppPageTitleProps,
   type AppPageTitleBreadcrumb,
 } from "./AppPageTitle"
+
+export {
+  AppLocationTreeFilter,
+  type AppLocationTreeFilterProps,
+  type TreeNode,
+  type UnallocatedConfig,
+} from "./AppLocationTreeFilter"

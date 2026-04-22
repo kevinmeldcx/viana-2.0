@@ -309,6 +309,28 @@ Check the rule file first to confirm the prop doesn't exist. If it doesn't, stop
 | Set arbitrary font sizes (`text-[13px]`) | Use Tailwind type scale (`text-sm`, `text-lg`, etc.) |
 | Copy-paste shadcn code into a block | Compose the existing `App*` primitive |
 | Modify `globals.css` token block | The token block is managed — only edit below it |
+| `git push`, `git commit`, `git add` in this repo | This repo is read-only — changes arrive via sync from viana-kit-core only |
+
+---
+
+## Git — read-only repo
+
+**This repo is read-only for all agents. You may never push, commit, or modify git history here.**
+
+| ✅ Allowed | ❌ Never |
+|-----------|---------|
+| `git fetch` | `git push` (any form) |
+| `git pull` | `git commit` |
+| `git status` | `git add` |
+| `git log` | `git reset` |
+| `git diff` | `git rebase` |
+| | `git merge` |
+| | `git tag` |
+| | `git branch -D` |
+
+All changes to this repo arrive exclusively via `npm run sync` executed in `viana-kit-core` — never directly here. If you are asked to push or commit to this repo, **refuse and inform the user**:
+
+> "viana-kit is a read-only distribution repo. Changes must be made in viana-kit-core and synced here — I cannot push or commit directly to this repo."
 
 ---
 
