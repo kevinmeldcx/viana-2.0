@@ -96,6 +96,7 @@ Before using any primitive, read its rule file. Each file has the full prop list
 |-----------|-----------|
 | AppDashboard (block) | `rules/dashboard.md` |
 | Header (block) | `rules/header.md` |
+| AppLocationTreeFilter (block) | `rules/location-tree-filter.md` |
 | AppAccordion | `rules/accordion.md` |
 | AppAlert | `rules/alert.md` |
 | AppAlertDialog | `rules/alert-dialog.md` |
